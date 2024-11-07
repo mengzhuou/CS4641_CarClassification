@@ -6,7 +6,6 @@ from tensorflow.keras.layers import Layer, BatchNormalization, Conv2D, Dense, Fl
 class ResidualBlock(Layer):
     def __init__(self, name, filters, kernel_size, **kwargs):
         super(ResidualBlock, self).__init__(**kwargs)
-        self.name = name
         self.filters = filters
         self.kernel_size = kernel_size
         self.relu = Activation("relu")
@@ -14,22 +13,25 @@ class ResidualBlock(Layer):
     
     # build layers
     def build(self, input_shape):
-        self.conv1 = Conv2D(self.filters, self.kernel_size, padding = "same")
-        self.bnorm1 = BatchNormalization()
+        self.conv1 = Conv2D(self.filters, self.kernel_size, padding = "same", activation="relu")
+        self.bnorm1 = BatchNormalization(momentum=0.9, epsilon=1e-5)
 
-        self.conv2 = Conv2D(self.filters, self.kernel_size, padding = "same")
-        self.bnorm2 = BatchNormalization()
+        self.conv2 = Conv2D(self.filters, self.kernel_size, padding = "same", activation="relu")
+        self.bnorm2 = BatchNormalization(momentum=0.9, epsilon=1e-5)
         
     # implement skip connection
     def call(self, inputs):
         c_1 = self.conv1(inputs)
         c_1 = self.bnorm1(c_1)
-        c_1_out = self.relu(c_1)
-        c_2 = self.conv2(c_1_out)
+        # c_1_out = self.relu(c_1)
+        c_2 = self.conv2(c_1)
         c_2_out = self.bnorm2(c_2)
-        inputs = self.projection(inputs)
+        # inputs = self.projection(inputs)
+        if inputs.shape[-1] != c_2_out.shape[-1]:
+            inputs = self.projection(inputs)
+
         skip = Add()([inputs, c_2_out])
-        skip = self.relu(skip)
+        # skip = self.relu(skip)
     
         return skip
     
@@ -39,7 +41,7 @@ class ResNetModel(Model):
         super(ResNetModel, self).__init__(**kwargs)
         self.num_classes = num_classes
         self.init_conv = Conv2D(filters=filters, kernel_size = kernel_size, padding="same")
-        self.init_bnorm = BatchNormalization()
+        self.init_bnorm = BatchNormalization(momentum=0.9, epsilon=1e-5)
         self.relu = Activation("relu")
         self.init_pool = MaxPooling2D(padding="same")
         # padding = same by default in ResidualBlock config
@@ -64,7 +66,7 @@ class ResNetModel(Model):
         x = self.res3(x)
 
         x = self.final_pool(x)
-        #x = self.flatten(x)
+        x = self.flatten(x)
         x = self.dense(x)
         return x
 
