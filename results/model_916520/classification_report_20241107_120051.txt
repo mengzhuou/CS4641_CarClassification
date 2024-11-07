@@ -1,0 +1,204 @@
+Accuracy: 0.00
+Precision: 0.00
+Recall: 0.00
+F1 Score: 0.00
+
+Classification Report:
+                                                        precision    recall  f1-score   support
+
+                             Acura Integra Type R 2001       0.00      0.00      0.00         7
+                                   Acura RL Sedan 2012       0.00      0.00      0.00         8
+                                   Acura TL Sedan 2012       0.00      0.00      0.00         8
+                                  Acura TL Type-S 2008       0.00      0.00      0.00         6
+                                  Acura TSX Sedan 2012       0.00      0.00      0.00         8
+                              Acura ZDX Hatchback 2012       0.00      0.00      0.00         8
+                            AM General Hummer SUV 2000       0.00      0.00      0.00         8
+              Aston Martin V8 Vantage Convertible 2012       0.00      0.00      0.00         9
+                    Aston Martin V8 Vantage Coupe 2012       0.00      0.00      0.00         8
+                  Aston Martin Virage Convertible 2012       0.00      0.00      0.00         6
+                        Aston Martin Virage Coupe 2012       0.00      0.00      0.00         7
+                                   Audi 100 Sedan 1994       0.00      0.00      0.00         8
+                                   Audi 100 Wagon 1994       0.00      0.00      0.00         8
+                                    Audi A5 Coupe 2012       0.00      0.00      0.00         8
+                                    Audi R8 Coupe 2012       0.00      0.00      0.00         8
+                            Audi RS 4 Convertible 2008       0.00      0.00      0.00         7
+                                    Audi S4 Sedan 2007       0.00      0.00      0.00         9
+                                    Audi S4 Sedan 2012       0.00      0.00      0.00         7
+                              Audi S5 Convertible 2012       0.00      0.00      0.00         8
+                                    Audi S5 Coupe 2012       0.00      0.00      0.00         8
+                                    Audi S6 Sedan 2011       0.00      0.00      0.00         9
+                                Audi TT Hatchback 2011       0.00      0.00      0.00         8
+                                 Audi TT RS Coupe 2012       0.00      0.00      0.00         7
+                                   Audi TTS Coupe 2012       0.00      0.00      0.00         8
+                                    Audi V8 Sedan 1994       0.00      0.00      0.00         8
+                             Bentley Arnage Sedan 2009       0.00      0.00      0.00         8
+            Bentley Continental Flying Spur Sedan 2007       0.00      0.00      0.00         8
+                     Bentley Continental GT Coupe 2007       0.00      0.00      0.00         8
+                     Bentley Continental GT Coupe 2012       0.00      0.00      0.00         7
+Bentley Continental Supersports Conv. Convertible 2012       0.00      0.00      0.00         8
+                           Bentley Mulsanne Sedan 2011       0.00      0.00      0.00         8
+                         BMW 1 Series Convertible 2012       0.00      0.00      0.00         8
+                               BMW 1 Series Coupe 2012       0.00      0.00      0.00         7
+                               BMW 3 Series Sedan 2012       0.00      0.00      0.00         8
+                               BMW 3 Series Wagon 2012       0.00      0.00      0.00         9
+                         BMW 6 Series Convertible 2007       0.00      0.00      0.00         6
+                         BMW ActiveHybrid 5 Sedan 2012       0.00      0.00      0.00         7
+                                     BMW M3 Coupe 2012       0.00      0.00      0.00         7
+                                     BMW M5 Sedan 2010       0.00      0.00      0.00         7
+                               BMW M6 Convertible 2010       0.00      0.00      0.00         8
+                                       BMW X3 SUV 2012       0.00      0.00      0.00         8
+                                       BMW X5 SUV 2007       0.00      0.00      0.00         8
+                                       BMW X6 SUV 2012       0.00      0.00      0.00         8
+                               BMW Z4 Convertible 2012       0.00      0.00      0.00         6
+                  Bugatti Veyron 16.4 Convertible 2009       0.00      0.00      0.00         6
+                        Bugatti Veyron 16.4 Coupe 2009       0.00      0.00      0.00         8
+                                Buick Enclave SUV 2012       0.00      0.00      0.00         8
+                                Buick Rainier SUV 2007       0.00      0.00      0.00         8
+                                   Buick Regal GS 2012       0.00      0.00      0.00         7
+                               Buick Verano Sedan 2012       0.00      0.00      0.00         7
+                             Cadillac CTS-V Sedan 2012       0.00      0.00      0.00         8
+                   Cadillac Escalade EXT Crew Cab 2007       0.00      0.00      0.00         8
+                                 Cadillac SRX SUV 2012       0.00      0.00      0.00         8
+                     Chevrolet Avalanche Crew Cab 2012       0.00      0.00      0.00         9
+                     Chevrolet Camaro Convertible 2012       0.00      0.00      0.00         8
+                              Chevrolet Cobalt SS 2010       0.00      0.00      0.00         8
+                   Chevrolet Corvette Convertible 2012       0.00      0.00      0.00         7
+       Chevrolet Corvette Ron Fellows Edition Z06 2007       0.00      0.00      0.00         7
+                           Chevrolet Corvette ZR1 2012       0.00      0.00      0.00         9
+                            Chevrolet Express Van 2007       0.00      0.00      0.00         7
+                                 Chevrolet HHR SS 2010       0.00      0.00      0.00         7
+                           Chevrolet Impala Sedan 2007       0.00      0.00      0.00         8
+                    Chevrolet Malibu Hybrid Sedan 2010       0.00      0.14      0.01         7
+                           Chevrolet Malibu Sedan 2007       0.00      0.00      0.00         8
+                      Chevrolet Monte Carlo Coupe 2007       0.00      0.00      0.00         9
+    Chevrolet Silverado 1500 Classic Extended Cab 2007       0.00      0.00      0.00         8
+            Chevrolet Silverado 1500 Extended Cab 2012       0.00      0.00      0.00         8
+         Chevrolet Silverado 1500 Hybrid Crew Cab 2012       0.00      0.00      0.00         8
+             Chevrolet Silverado 1500 Regular Cab 2012       0.00      0.00      0.00         8
+           Chevrolet Silverado 2500HD Regular Cab 2012       0.00      0.00      0.00         7
+                            Chevrolet Sonic Sedan 2012       0.00      0.00      0.00         8
+                       Chevrolet Tahoe Hybrid SUV 2012       0.00      0.00      0.00         7
+                         Chevrolet TrailBlazer SS 2009       0.00      0.00      0.00         8
+                           Chevrolet Traverse SUV 2012       0.00      0.00      0.00         8
+                               Chrysler 300 SRT-8 2010       0.00      0.00      0.00         9
+                               Chrysler Aspen SUV 2009       0.00      0.00      0.00         8
+                   Chrysler Crossfire Convertible 2008       0.00      0.00      0.00         8
+                  Chrysler PT Cruiser Convertible 2008       0.00      0.00      0.00         9
+                     Chrysler Sebring Convertible 2010       0.00      0.00      0.00         8
+                Chrysler Town and Country Minivan 2012       0.00      0.00      0.00         7
+                              Daewoo Nubira Wagon 2002       0.00      0.00      0.00         9
+                              Dodge Caliber Wagon 2007       0.00      0.00      0.00         8
+                              Dodge Caliber Wagon 2012       0.00      0.00      0.00         8
+                            Dodge Caravan Minivan 1997       0.00      0.00      0.00         8
+                            Dodge Challenger SRT8 2011       0.00      0.00      0.00         7
+                              Dodge Charger Sedan 2012       0.00      0.00      0.00         8
+                              Dodge Charger SRT-8 2009       0.00      0.00      0.00         8
+                            Dodge Dakota Club Cab 2007       0.00      0.00      0.00         7
+                            Dodge Dakota Crew Cab 2010       0.00      0.00      0.00         8
+                                Dodge Durango SUV 2007       0.00      0.00      0.00         9
+                                Dodge Durango SUV 2012       0.00      0.00      0.00         8
+                                Dodge Journey SUV 2012       0.00      0.00      0.00         8
+                               Dodge Magnum Wagon 2008       0.00      0.00      0.00         8
+                   Dodge Ram Pickup 3500 Crew Cab 2010       0.00      0.00      0.00         8
+                   Dodge Ram Pickup 3500 Quad Cab 2009       0.00      0.00      0.00         8
+                         Dodge Sprinter Cargo Van 2009       0.00      0.00      0.00         7
+                            Eagle Talon Hatchback 1998       0.00      0.00      0.00         9
+                   Ferrari 458 Italia Convertible 2012       0.00      0.00      0.00         8
+                         Ferrari 458 Italia Coupe 2012       0.00      0.00      0.00         6
+                   Ferrari California Convertible 2012       0.00      0.00      0.00         7
+                                 Ferrari FF Coupe 2012       0.00      0.00      0.00         8
+                             FIAT 500 Convertible 2012       0.00      0.00      0.00         7
+                               Fisker Karma Sedan 2012       0.00      0.00      0.00         8
+                          Ford E-Series Wagon Van 2012       0.00      0.00      0.00         7
+                                    Ford Edge SUV 2012       0.00      0.00      0.00         8
+                           Ford Expedition EL SUV 2009       0.00      0.00      0.00         8
+                           Ford F-150 Regular Cab 2007       0.00      0.00      0.00         9
+                           Ford F-150 Regular Cab 2012       0.00      0.00      0.00         8
+                   Ford F-450 Super Duty Crew Cab 2012       0.00      0.00      0.00         8
+                                Ford Fiesta Sedan 2012       0.00      0.00      0.00         8
+                                 Ford Focus Sedan 2007       0.00      0.00      0.00         9
+                            Ford Freestar Minivan 2007       0.00      0.00      0.00         8
+                                    Ford GT Coupe 2006       0.00      0.00      0.00         9
+                         Ford Mustang Convertible 2007       0.00      0.00      0.00         8
+                             Ford Ranger SuperCab 2011       0.00      0.00      0.00         8
+                            Geo Metro Convertible 1993       0.00      0.00      0.00         8
+                                   GMC Acadia SUV 2012       0.00      0.00      0.00        13
+                          GMC Canyon Extended Cab 2012       0.00      0.00      0.00         8
+                                   GMC Savana Van 2012       0.00      0.00      0.00         8
+                                  GMC Terrain SUV 2012       0.00      0.00      0.00         8
+                             GMC Yukon Hybrid SUV 2012       0.00      0.00      0.00         8
+                               Honda Accord Coupe 2012       0.00      0.00      0.00         8
+                               Honda Accord Sedan 2012       0.00      0.00      0.00         8
+                            Honda Odyssey Minivan 2007       0.00      0.00      0.00         8
+                            Honda Odyssey Minivan 2012       0.00      0.00      0.00         7
+                           HUMMER H2 SUT Crew Cab 2009       0.00      0.57      0.01         7
+                              HUMMER H3T Crew Cab 2010       0.00      0.00      0.00         7
+                              Hyundai Azera Sedan 2012       0.00      0.00      0.00         8
+                            Hyundai Elantra Sedan 2007       0.00      0.00      0.00         8
+                Hyundai Elantra Touring Hatchback 2012       0.00      0.00      0.00         8
+                            Hyundai Genesis Sedan 2012       0.00      0.00      0.00         8
+                             Hyundai Santa Fe SUV 2012       0.00      0.00      0.00         8
+                      Hyundai Sonata Hybrid Sedan 2012       0.00      0.00      0.00         6
+                             Hyundai Sonata Sedan 2012       0.00      0.00      0.00         7
+                               Hyundai Tucson SUV 2012       0.00      0.00      0.00         8
+                       Hyundai Veloster Hatchback 2012       0.00      0.00      0.00         8
+                             Hyundai Veracruz SUV 2012       0.00      0.00      0.00         8
+                             Infiniti G Coupe IPL 2012       0.00      0.00      0.00         6
+                                Infiniti QX56 SUV 2011       0.00      0.00      0.00         6
+                               Isuzu Ascender SUV 2008       0.00      0.00      0.00         8
+                                    Jaguar XK XKR 2012       0.00      0.00      0.00         9
+                                 Jeep Compass SUV 2012       0.00      0.00      0.00         8
+                          Jeep Grand Cherokee SUV 2012       0.00      0.00      0.00         9
+                                 Jeep Liberty SUV 2012       0.00      0.00      0.00         8
+                                 Jeep Patriot SUV 2012       0.00      0.00      0.00         8
+                                Jeep Wrangler SUV 2012       0.00      0.00      0.00         8
+                      Lamborghini Aventador Coupe 2012       0.00      0.00      0.00         8
+                         Lamborghini Diablo Coupe 2001       0.00      0.00      0.00         8
+       Lamborghini Gallardo LP 570-4 Superleggera 2012       0.00      0.00      0.00         7
+                       Lamborghini Reventon Coupe 2008       0.00      0.00      0.00         7
+                               Land Rover LR2 SUV 2012       0.00      0.00      0.00         8
+                       Land Rover Range Rover SUV 2012       0.00      0.00      0.00         8
+                           Lincoln Town Car Sedan 2011       0.00      0.00      0.00         7
+                                Mazda Tribute SUV 2011       0.00      0.00      0.00         8
+                            McLaren MP4-12C Coupe 2012       0.00      0.00      0.00         7
+              Mercedes-Benz 300-Class Convertible 1993       0.00      0.00      0.00         7
+                      Mercedes-Benz C-Class Sedan 2012       0.00      0.00      0.00         8
+                      Mercedes-Benz E-Class Sedan 2012       0.00      0.00      0.00         9
+                      Mercedes-Benz S-Class Sedan 2012       0.00      0.00      0.00         9
+                     Mercedes-Benz SL-Class Coupe 2009       0.00      0.00      0.00         8
+                       Mercedes-Benz Sprinter Van 2012       0.00      0.00      0.00         8
+                 MINI Cooper Roadster Convertible 2012       0.00      0.00      0.00         7
+                          Mitsubishi Lancer Sedan 2012       0.00      0.00      0.00         9
+                               Nissan 240SX Coupe 1998       0.00      0.00      0.00         9
+                            Nissan Juke Hatchback 2012       0.00      0.00      0.00         8
+                            Nissan Leaf Hatchback 2012       0.00      0.00      0.00         8
+                          Nissan NV Passenger Van 2012       0.00      0.00      0.00         7
+                              Plymouth Neon Coupe 1999       0.00      0.00      0.00         8
+                           Porsche Panamera Sedan 2012       0.00      0.00      0.00         8
+                        Ram C_V Cargo Van Minivan 2012       0.00      0.00      0.00         8
+                          Rolls-Royce Ghost Sedan 2012       0.00      0.00      0.00         7
+   Rolls-Royce Phantom Drophead Coupe Convertible 2012       0.00      0.00      0.00         3
+                        Rolls-Royce Phantom Sedan 2012       0.00      0.00      0.00         8
+                               Scion xD Hatchback 2012       0.00      0.00      0.00         8
+                         smart fortwo Convertible 2012       0.00      0.00      0.00         8
+                            Spyker C8 Convertible 2009       0.00      0.00      0.00         7
+                                  Spyker C8 Coupe 2009       0.00      0.00      0.00         9
+                               Suzuki Aerio Sedan 2007       0.00      0.00      0.00         8
+                             Suzuki Kizashi Sedan 2012       0.00      0.00      0.00         8
+                             Suzuki SX4 Hatchback 2012       0.00      0.00      0.00         7
+                                 Suzuki SX4 Sedan 2012       0.00      0.00      0.00         8
+                              Tesla Model S Sedan 2012       0.00      0.00      0.00         8
+                               Toyota 4Runner SUV 2012       0.00      0.00      0.00         8
+                               Toyota Camry Sedan 2012       0.00      0.00      0.00         7
+                             Toyota Corolla Sedan 2012       0.00      0.00      0.00         8
+                               Toyota Sequoia SUV 2012       0.00      0.00      0.00         9
+                      Volkswagen Beetle Hatchback 2012       0.00      0.00      0.00         8
+                        Volkswagen Golf Hatchback 1991       0.00      0.00      0.00         9
+                        Volkswagen Golf Hatchback 2012       0.00      0.00      0.00         8
+                                  Volvo 240 Sedan 1993       0.00      0.00      0.00         8
+                              Volvo C30 Hatchback 2012       0.00      0.00      0.00         8
+                                   Volvo XC90 SUV 2007       0.00      0.00      0.00         9
+
+                                              accuracy                           0.00      1502
+                                             macro avg       0.00      0.00      0.00      1502
+                                          weighted avg       0.00      0.00      0.00      1502

@@ -8,4 +8,10 @@
 #SBATCH --mail-user=jvarma3@gatech.edu            # e-mail address for notifications
 
 module load tensorflow
-python resnet_exp.py
+JOB_ID=$SLURM_JOB_ID
+MODEL_PATH="models/model_$JOB_ID"
+RESULT_PATH="results/model_$JOB_ID"
+
+python -m pip install -r requirements.txt 
+python resnet_exp.py --model_path $MODEL_PATH --results_path $RESULT_PATH --epochs 1 --steps_per_epoch 10
+
