@@ -1,12 +1,12 @@
-
 import tensorflow as tf
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Layer, BatchNormalization, Conv2D, Dense, Flatten, Add, AveragePooling2D, Activation, GlobalAveragePooling2D, MaxPooling2D
+from tensorflow.keras import layers
+from tensorflow.keras.layers import Layer, BatchNormalization, Conv2D, Dense, Flatten, Add, AveragePooling2D, Activation, GlobalAveragePooling2D, MaxPooling2D, Dropout
 
 class ResidualBlock(Layer):
-    def __init__(self, name, filters, kernel_size, **kwargs):
+    def __init__(self, block_name, filters, kernel_size, **kwargs):
         super(ResidualBlock, self).__init__(**kwargs)
-        self.name = name
+        self.block_name = block_name
         self.filters = filters
         self.kernel_size = kernel_size
         self.relu = Activation("relu")
@@ -32,32 +32,43 @@ class ResidualBlock(Layer):
         skip = self.relu(skip)
     
         return skip
-    
+
 class ResNetModel(Model):
 
     def __init__(self, num_classes, filters, kernel_size, **kwargs):
         super(ResNetModel, self).__init__(**kwargs)
         self.num_classes = num_classes
+        
+        self.init_data_augmentation = tf.keras.Sequential([
+            layers.RandomFlip("horizontal"),
+            layers.RandomRotation(0.1),
+            layers.RandomZoom(0.1),
+        ])
+        
         self.init_conv = Conv2D(filters=filters, kernel_size = kernel_size, padding="same")
         self.init_bnorm = BatchNormalization()
         self.relu = Activation("relu")
         self.init_pool = MaxPooling2D(padding="same")
         # padding = same by default in ResidualBlock config
         kernel_size = (kernel_size[0] - 2, kernel_size[1] - 2)
-        self.res1 = ResidualBlock(name="res1", filters=filters, kernel_size=kernel_size)
+        self.res1 = ResidualBlock(block_name="res1", filters=filters, kernel_size=kernel_size)
         filters*=2
-        self.res2 = ResidualBlock(name="res2", filters=filters, kernel_size=kernel_size)
+        self.res2 = ResidualBlock(block_name="res2", filters=filters, kernel_size=kernel_size)
         filters*=2
-        self.res3 = ResidualBlock(name="res3", filters=filters, kernel_size=kernel_size)
+        self.res3 = ResidualBlock(block_name="res3", filters=filters, kernel_size=kernel_size)
 
         self.final_pool = GlobalAveragePooling2D()
         self.flatten = Flatten()
         self.dense = Dense(self.num_classes, activation = "softmax")
 
     def call(self, inputs):
+
+        x = self.init_data_augmentation(inputs)
+
         x = self.init_conv(inputs)
         x = self.init_bnorm(x)
         x = self.relu(x)
+        x = self.init_pool(x)
 
         x = self.res1(x)
         x = self.res2(x)
