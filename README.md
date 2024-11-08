@@ -1,0 +1,1 @@
+Data Cleaning: provides a data cleaning pipeline for our ML car model train and test dataset, includes functions to delete folders with 30 or fewer images, resize images to a consistent size with padding, and check for non-JPEG images, ensuring all files meet format requirements. 
