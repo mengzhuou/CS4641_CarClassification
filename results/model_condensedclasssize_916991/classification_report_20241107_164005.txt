@@ -1,0 +1,60 @@
+Accuracy: 0.13
+Precision: 0.11
+Recall: 0.13
+F1 Score: 0.07
+
+Classification Report:
+               precision    recall  f1-score   support
+
+        Acura       0.00      0.00      0.00        45
+           AM       0.00      0.00      0.00         8
+        Aston       0.33      0.10      0.15        30
+         Audi       0.15      0.18      0.16       111
+      Bentley       0.00      0.00      0.00        44
+          BMW       0.14      0.04      0.06       100
+      Bugatti       0.00      0.00      0.00        14
+        Buick       0.00      0.00      0.00        30
+     Cadillac       0.00      0.00      0.00        24
+    Chevrolet       0.12      0.85      0.20       164
+     Chrysler       0.00      0.00      0.00        49
+       Daewoo       0.00      0.00      0.00         9
+        Dodge       0.12      0.03      0.04       118
+        Eagle       0.00      0.00      0.00         9
+      Ferrari       0.38      0.30      0.33        30
+         FIAT       0.00      0.00      0.00         6
+       Fisker       0.00      0.00      0.00         8
+         Ford       0.27      0.06      0.10        98
+          Geo       0.12      0.12      0.12         8
+          GMC       0.00      0.00      0.00        45
+        Honda       0.00      0.00      0.00        30
+       HUMMER       1.00      0.13      0.24        15
+      Hyundai       0.20      0.01      0.02        77
+     Infiniti       0.00      0.00      0.00        12
+        Isuzu       0.00      0.00      0.00         8
+       Jaguar       0.00      0.00      0.00         9
+         Jeep       0.00      0.00      0.00        41
+  Lamborghini       0.40      0.40      0.40        30
+         Land       0.00      0.00      0.00        16
+      Lincoln       0.00      0.00      0.00         7
+        Mazda       0.18      0.04      0.07        49
+      McLaren       0.00      0.00      0.00         7
+Mercedes-Benz       0.00      0.00      0.00         7
+         MINI       0.00      0.00      0.00         8
+   Mitsubishi       0.00      0.00      0.00         9
+       Nissan       0.00      0.00      0.00        32
+     Plymouth       0.00      0.00      0.00         8
+      Porsche       0.00      0.00      0.00         8
+          Ram       0.00      0.00      0.00         8
+  Rolls-Royce       0.00      0.00      0.00        18
+        Scion       0.00      0.00      0.00         8
+        smart       0.00      0.00      0.00        32
+       Spyker       0.00      0.00      0.00         7
+       Suzuki       0.00      0.00      0.00        31
+        Tesla       0.00      0.00      0.00        25
+       Toyota       0.00      0.00      0.00        25
+   Volkswagen       0.00      0.00      0.00         8
+        Volvo       0.00      0.00      0.00        17
+
+     accuracy                           0.13      1502
+    macro avg       0.07      0.05      0.04      1502
+ weighted avg       0.11      0.13      0.07      1502
