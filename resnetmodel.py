@@ -1,7 +1,7 @@
 
 import tensorflow as tf
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Layer, BatchNormalization, Conv2D, Dense, Flatten, Add, AveragePooling2D, Activation, GlobalAveragePooling2D, MaxPooling2D
+from tensorflow.keras.models import Model, Sequential
+from tensorflow.keras.layers import Layer, BatchNormalization, Conv2D, Dense, Flatten, Add, Activation, GlobalAveragePooling2D, MaxPooling2D, RandomFlip, RandomRotation, RandomZoom
 
 class ResidualBlock(Layer):
     def __init__(self, name, filters, kernel_size, **kwargs):
@@ -39,6 +39,11 @@ class ResNetModel(Model):
     def __init__(self, num_classes, filters, kernel_size, **kwargs):
         super(ResNetModel, self).__init__(**kwargs)
         self.num_classes = num_classes
+        self.init_data_augmentation = Sequential([
+            RandomFlip("horizontal"),
+            RandomRotation(0.1),
+            RandomZoom(0.1),
+        ])
         self.init_conv = Conv2D(filters=filters, kernel_size = kernel_size, padding="same")
         self.init_bnorm = BatchNormalization(momentum=0.9, epsilon=1e-5)
         self.relu = Activation("relu")
@@ -55,6 +60,7 @@ class ResNetModel(Model):
         self.dense = Dense(self.num_classes, activation = "softmax")
 
     def call(self, inputs):
+        x = self.init_data_augmentation(inputs)
         x = self.init_conv(inputs)
         x = self.init_bnorm(x)
         x = self.relu(x)
