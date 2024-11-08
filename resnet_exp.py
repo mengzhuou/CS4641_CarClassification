@@ -12,9 +12,9 @@ from datetime import datetime
 from typing import Optional
 
 
-def load_data(test_dir: str = "Split_Dataset/new_test", 
-              train_dir: str = "Split_Dataset/new_train", 
-              validation_dir: str = "Split_Dataset/validation", 
+def load_data(test_dir: str, 
+              train_dir: str, 
+              validation_dir: str, 
               batch_size:int = 32,
               img_height:int = 224,
               img_width: int = 224) -> dict[str, Dataset]: # train_ds, test_ds, val_ds are keys
@@ -61,12 +61,12 @@ def load_data(test_dir: str = "Split_Dataset/new_test",
 def train_and_save_resnet(path_to_save: str, 
                           train_ds: Dataset,
                           val_ds: Dataset,
+                          num_classes: int, 
                           epochs: int = 10,
                           steps_per_epoch: Optional[int] = None,
                           img_height:int = 224,
                           img_width:int = 224,
                           channels: int = 3, 
-                          num_classes: int = 192, 
                           kernel_size: tuple = (7,7), 
                           filters:int=32) -> None:
     inputs = tf.keras.Input(shape=(img_height, img_width, channels))
@@ -85,7 +85,7 @@ def train_and_save_resnet(path_to_save: str,
         'verbose': 1
     }
 
-    if steps_per_epoch is not None:
+    if steps_per_epoch:
         fit_params.update({"steps_per_epoch":steps_per_epoch})
 
     resnet_model.fit(**fit_params)
@@ -153,27 +153,31 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run ResNet model pipeline')
     parser.add_argument('--model_path', type=str, required=True, help='Path to the trained model.')
     parser.add_argument('--results_path', type=str, required=True, help='Directory to save evaluation results.')
-    parser.add_argument('--epochs', type=int, default=10, required=False, help='If you want to set epochs')
-    parser.add_argument('--steps_per_epoch', type=int, default=10, required=False, help='If you want to run model faster')
+    parser.add_argument('--epochs', type=int, required=False, help='If you want to set epochs')
+    parser.add_argument('--steps_per_epoch', type=int, required=False, help='If you want to run model faster')
     
     args = parser.parse_args()
 
     # load Dataset objects
-    data = load_data()
+    data = load_data(test_dir = 'Condensed_Dataset/new_test', 
+                     train_dir='Condensed_Dataset/new_train', 
+                     validation_dir='Condensed_Dataset/validation')
 
     test_ds = data["test_ds"]
     train_ds = data["train_ds"]
     val_ds = data["val_ds"]
 
+    class_names = os.listdir('Condensed_Dataset/new_test')
+
     train_and_save_resnet(path_to_save=args.model_path, 
                           train_ds=train_ds, 
                           val_ds=val_ds, 
                           epochs=args.epochs, 
-                          steps_per_epoch=args.steps_per_epoch)
+                          steps_per_epoch=args.steps_per_epoch,
+                          num_classes=len(class_names))
     
     # grab all folder names from here
-
-    class_names = os.listdir('Split_Dataset/new_test')
+    
     # evaluate and output results
     evaluate_model(model_path=args.model_path, 
                    test_ds=test_ds, 
