@@ -120,7 +120,11 @@ import os
 import shutil
 import random
 
-def split_dataset(merged_root, split_root, train_ratio=0.8, test_ratio=0.1, val_ratio=0.1):
+def split_dataset(merged_root: str, 
+                  split_root: str, 
+                  train_ratio=0.8, 
+                  test_ratio=0.1, 
+                  val_ratio=0.1):
     train_dir = os.path.join(split_root, "new_train")
     test_dir = os.path.join(split_root, "new_test")
     val_dir = os.path.join(split_root, "validation")
@@ -151,20 +155,30 @@ def split_dataset(merged_root, split_root, train_ratio=0.8, test_ratio=0.1, val_
                 if not os.path.exists(dest_path):
                   shutil.copy2(source_path, dest_path)
 
-    print("Dataset fully split into training, testing, and validation sets.")
+
+def condense_car_classes(original_path: str, 
+                         new_path: str, 
+                         splits: list[str] = ["new_test", "new_train", "validation"]) -> None:
+    for split in splits:
+        source_dir = os.path.join(original_path, split)
+        destination_dir = os.path.join(new_path, split)
+        
+        os.makedirs(destination_dir, exist_ok=True)
+
+        for class_name in os.listdir(source_dir):
+            car_brand = class_name.split(" ")[0]
+            car_brand_folder = os.path.join(destination_dir, car_brand)
+            os.makedirs(car_brand_folder, exist_ok=True)
+            car_model_folder = os.path.join(source_dir, class_name)
+            if os.path.isdir(car_model_folder):
+                for image in os.listdir(car_model_folder):
+                    source_img = os.path.join(car_model_folder, image)
+                    dest_img = os.path.join(car_brand_folder, image)
+                    shutil.copy(source_img, dest_img)
 
 split_dataset(merged_root, split_root, train_ratio=0.8, test_ratio=0.1, val_ratio=0.1)
 
-import torchvision.transforms as transforms
-import torchvision.models as models
+# reduce class size by condensing all cars of the same brand to one subfolder/class
+condense_car_classes(original_path="Split_Dataset", new_path="Condensed_Dataset")
 
-image_size = (224, 224)
-
-transforms = transforms.Compose([
-        transforms.Resize(image_size),
-        transforms.ToTensor(),
-        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.2),
-        transforms.RandomHorizontalFlip(p=0.5),
-        transforms.RandomRotation(degrees=20)
-    ])
 
