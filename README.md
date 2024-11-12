@@ -1,4 +1,4 @@
-# Group 19 Car Classification Project
+# Group 19's Car Classification Project
 ## Directory Structure
 - `Condensed_Dataset/`: Image dataset
   - `new_test/`: test data
