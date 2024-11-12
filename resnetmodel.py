@@ -54,10 +54,16 @@ class ResNetModel(Model):
         self.res2 = ResidualBlock(name="res2", filters=filters, kernel_size=kernel_size)
         filters*=2
         self.res3 = ResidualBlock(name="res3", filters=filters, kernel_size=kernel_size)
-
+        # add more residual blocks
         self.final_pool = GlobalAveragePooling2D()
         self.flatten = Flatten()
-        self.dense = Dense(self.num_classes, activation = "softmax")
+        # feed forward layer
+        # leaky relu
+        # another feed forward
+        # softmax
+        # make final layer more complex
+        self.dense = Dense(self.num_classes, activation = "softmax") 
+        #activation = softmax may be incorrect 
 
     def call(self, inputs):
         x = self.init_data_augmentation(inputs)

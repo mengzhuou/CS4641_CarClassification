@@ -72,10 +72,10 @@ def train_and_save_resnet(path_to_save: str,
     inputs = tf.keras.Input(shape=(img_height, img_width, channels))
     outputs = ResNetModel(num_classes=num_classes, kernel_size=kernel_size, filters=filters)(inputs) 
     
-    resnet_model = tf.keras.Model(inputs=inputs, outputs=outputs)  # Create a Model object
+    resnet_model = tf.keras.Model(inputs=inputs, outputs=outputs)  
 
     resnet_model.compile(optimizer='adam',
-              loss='sparse_categorical_crossentropy',
+              loss='sparse_categorical_crossentropy', # experiment w diff optimzers also
               metrics=['accuracy'])
     
     fit_params = {
@@ -176,13 +176,9 @@ if __name__ == "__main__":
                           steps_per_epoch=args.steps_per_epoch,
                           num_classes=len(class_names))
     
-    # grab all folder names from here
-    
+
     # evaluate and output results
     evaluate_model(model_path=args.model_path, 
                    test_ds=test_ds, 
                    output_dir=args.results_path,
                    class_names=class_names)
-
-    # to evaluate a model, run the following command from the terminal (replace the arguments with actual ones):
-    # python eval.py --model_path "PATH/TO/MODEL" --model_type "MODEL_TYPE" --x_test_path "PATH/TO/x_test.npy" --y_test_path "PATH/TO/y_test.npy" --label_names_path "PATH/TO/label_names.npy" --output_dir "PATH/TO/SAVE/RESULTS"

@@ -155,7 +155,6 @@ def split_dataset(merged_root: str,
                 if not os.path.exists(dest_path):
                   shutil.copy2(source_path, dest_path)
 
-    print("Dataset fully split into training, testing, and validation sets.")
 
 def condense_car_classes(original_path: str, 
                          new_path: str, 
@@ -177,23 +176,9 @@ def condense_car_classes(original_path: str,
                     dest_img = os.path.join(car_brand_folder, image)
                     shutil.copy(source_img, dest_img)
 
-    print("Files have been copied to Split_data_condensed by brand.")
-
 split_dataset(merged_root, split_root, train_ratio=0.8, test_ratio=0.1, val_ratio=0.1)
 
 # reduce class size by condensing all cars of the same brand to one subfolder/class
 condense_car_classes(original_path="Split_Dataset", new_path="Condensed_Dataset")
 
-# import torchvision.transforms as transforms
-# import torchvision.models as models
-
-# image_size = (224, 224)
-
-# transforms = transforms.Compose([
-#         transforms.Resize(image_size),
-#         transforms.ToTensor(),
-#         transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.2),
-#         transforms.RandomHorizontalFlip(p=0.5),
-#         transforms.RandomRotation(degrees=20)
-#     ])
 
