@@ -1,0 +1,14 @@
+Accuracy: 0.75
+Precision: 0.83
+Recall: 0.75
+F1 Score: 0.73
+
+Classification Report:
+              precision    recall  f1-score   support
+
+       Acura       0.67      1.00      0.80         2
+         BMW       1.00      0.50      0.67         2
+
+    accuracy                           0.75         4
+   macro avg       0.83      0.75      0.73         4
+weighted avg       0.83      0.75      0.73         4

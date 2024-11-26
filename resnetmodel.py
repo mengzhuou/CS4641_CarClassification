@@ -43,27 +43,28 @@ class ResNetModel(Model):
             RandomFlip("horizontal"),
             RandomRotation(0.1),
             RandomZoom(0.1),
+            # brightness/contrast
+            tf.keras.layers.RandomContrast(0.2),
+            tf.keras.layers.RandomBrightness(factor=0.2), 
+            # crop smaller than original size
+            tf.keras.layers.RandomCrop(200, 200),
+            tf.keras.layers.Resizing(224, 224), 
+            tf.keras.layers.GaussianNoise(0.1) 
         ])
-        self.init_conv = Conv2D(filters=filters, kernel_size = kernel_size, padding="same")
+
+        self.init_conv = Conv2D(filters=filters, kernel_size=kernel_size, padding="same")
         self.init_bnorm = BatchNormalization(momentum=0.9, epsilon=1e-5)
         self.relu = Activation("relu")
         self.init_pool = MaxPooling2D(padding="same")
         kernel_size = (kernel_size[0] - 2, kernel_size[1] - 2)
         self.res1 = ResidualBlock(name="res1", filters=filters, kernel_size=kernel_size)
-        filters*=2
+        filters *= 2
         self.res2 = ResidualBlock(name="res2", filters=filters, kernel_size=kernel_size)
-        filters*=2
+        filters *= 2
         self.res3 = ResidualBlock(name="res3", filters=filters, kernel_size=kernel_size)
-        # add more residual blocks
         self.final_pool = GlobalAveragePooling2D()
         self.flatten = Flatten()
-        # feed forward layer
-        # leaky relu
-        # another feed forward
-        # softmax
-        # make final layer more complex
-        self.dense = Dense(self.num_classes, activation = "softmax") 
-        #activation = softmax may be incorrect 
+        self.dense = Dense(self.num_classes, activation="softmax")
 
     def call(self, inputs):
         x = self.init_data_augmentation(inputs)
