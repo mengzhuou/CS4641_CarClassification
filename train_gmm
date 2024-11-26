@@ -1,17 +1,30 @@
 #!/bin/bash
 #SBATCH -Jgpuexample
 #SBATCH -N1 --gres=gpu:1                    # Number of nodes and GPUs required
-#SBATCH --mem-per-gpu=32G                   # Memory per gpu
+#SBATCH --mem-per-gpu=64G                   # Memory per gpu
 #SBATCH -t8:00:00                           # Duration of the job (Ex: 15 mins)
 #SBATCH -oReport-%j.out                     # Combined output and error messages file
 
 module load python/3.10.10
+python3.10 -m ensurepip --upgrade
+python3.10 -m pip install --user --upgrade pip
+python3.10 -m pip --version
+python3.10 -m pip install --user "numpy<2"
+python3.10 -m pip install --user tensorflow pandas scikit-learn opencv-python pyarrow seaborn matplotlib
+module load tensorflow
+
+JOB_ID=$SLURM_JOB_ID
+# Default values
+TRAIN_DIR="Condensed_Dataset/new_train"
+TEST_DIR="Condensed_Dataset/new_test"
+MAX_ITERS=100
+K_VALUES="10 15 20"
+OUTPUT_DIR="results/gmm/model_${JOB_ID}_${MAX_ITERS}-iters"
 
 # Run the GMM training script
-python gmm/gmm_train_eval.py \
-  --train_dir Condensed_Dataset/new_train \
-  --test_dir Condensed_Dataset/new_test \
-  --output_dir results/gmm \
-  --max_iters 100 \
-  --K_values 10 15 20 30 50 75 100 \
-  --n_components 95
+python gmm/gmm_pipeline.py \
+  --train_dir $TRAIN_DIR \
+  --test_dir $TEST_DIR \
+  --output_dir $OUTPUT_DIR \
+  --max_iters $MAX_ITERS \
+  --K_values $K_VALUES
