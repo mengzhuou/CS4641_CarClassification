@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH -Jgpuexample
+#SBATCH -N1 --gres=gpu:1                       # Number of nodes and GPUs required
+#SBATCH --mem-per-gpu=64G                           # Memory per gpu
+#SBATCH -t8:00:00                                        # Duration of the job (Ex: 15 mins)
+#SBATCH -oReport-%j.out                             # Combined output and error messages file
+
+module load tensorflow
+JOB_ID=$SLURM_JOB_ID
+MODEL_PATH="models/vit/model_$JOB_ID"
+RESULT_PATH="results/vit/model_$JOB_ID"
+
+python -m pip install -r requirements.txt 
+python vit_driver.py --model_path $MODEL_PATH
+
