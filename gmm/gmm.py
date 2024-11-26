@@ -195,17 +195,20 @@ class GMM(object):
         # Initialize priors (pi) uniformly
         pi = np.ones(self.K) / self.K
 
-        # Compute covariances (sigma) based on k-means assignments
+        # calculate covariances (sigma) based on k-means assignments
         sigma = []
         for k in range(self.K):
             cluster_points = self.points[kmeans.assignments == k]
             if len(cluster_points) > 0:
                 cov_matrix = np.cov(cluster_points, rowvar=False)
-                cov_matrix += np.eye(self.D) * SIGMA_CONST  # Regularize covariance matrix
-                sigma.append(cov_matrix)
+                if cov_matrix.ndim == 0:  # handle cases where cov_matrix is a scalar
+                    cov_matrix = np.array([[cov_matrix]])
             else:
-                sigma.append(np.eye(self.D) * SIGMA_CONST)  # Handle empty clusters
-        sigma = np.array(sigma)
+                cov_matrix = np.zeros((self.D, self.D))  # initialize empty clusters with zero covariance
+            cov_matrix += np.eye(self.D) * SIGMA_CONST  # regularize covariance matrix
+            sigma.append(cov_matrix)
+        
+        sigma = np.array(sigma)  # convert to a 3D numpy array
 
         return pi, mu, sigma
 

@@ -4,8 +4,6 @@
 #SBATCH --mem-per-gpu=32G                   # Memory per gpu
 #SBATCH -t8:00:00                           # Duration of the job (Ex: 15 mins)
 #SBATCH -oReport-%j.out                     # Combined output and error messages file
-#SBATCH --mail-type=FAIL                    # Mail preferences
-#SBATCH --mail-user=gcanales6@gatech.edu    # e-mail address for notifications
 
 module load python/3.10.10
 

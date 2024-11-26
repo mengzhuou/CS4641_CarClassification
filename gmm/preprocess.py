@@ -1,46 +1,39 @@
 import os
+import cv2
 import numpy as np
-from PIL import Image
-from sklearn.preprocessing import StandardScaler
 
 
-def preprocess_images(image_dir, image_size=(64, 64)):
+def preprocess_images(image_dir, image_size=(224, 224)):
     """
-    Preprocess images: Resize, flatten, normalize, and label
-    
+    Preprocess images into numpy arrays with normalization.
+
     Args:
-        image_dir (str): Path to dataset directory.
-        image_size (tuple): Target size for resizing (width, height).
-        
-    Returns:
-        tuple: Preprocessed data (numpy array), labels (numpy array), and class mapping.
-    """
-    data, labels = [], []
-    class_mapping = {}
-    classes = sorted(os.listdir(image_dir))
-    
-    for class_idx, class_name in enumerate(classes):
-        class_mapping[class_idx] = class_name
-        class_path = os.path.join(image_dir, class_name)
-        
-        if os.path.isdir(class_path):
-            for image_file in os.listdir(class_path):
-                image_path = os.path.join(class_path, image_file)
-                try:
-                    image = Image.open(image_path).convert('RGB')
-                    image_resized = image.resize(image_size)
-                    flattened_image = np.asarray(image_resized).flatten()
-                    data.append(flattened_image)
-                    labels.append(class_idx)
-                except Exception as e:
-                    print(f"Error processing {image_path}: {e}")
+        image_dir (str): Path to the dataset directory.
+        image_size (tuple): Size to resize images (height, width).
 
-    # normalize data
-    data = np.array(data)
-    scaler = StandardScaler()
-    data = scaler.fit_transform(data)
-    
-    return np.array(data), np.array(labels), class_mapping
+    Returns:
+        tuple: (data, labels, label_map) where data is the image data,
+               labels are the corresponding labels, and label_map maps label indices to class names.
+    """
+    data = []
+    labels = []
+    label_map = {}
+
+    for idx, label in enumerate(sorted(os.listdir(image_dir))):
+        label_map[idx] = label
+        label_dir = os.path.join(image_dir, label)
+        for file in os.listdir(label_dir):
+            file_path = os.path.join(label_dir, file)
+            image = cv2.imread(file_path)
+            image = cv2.resize(image, image_size)
+            image = image / 255.0  # Normalize pixel values
+            data.append(image)
+            labels.append(idx)
+
+    data = np.array(data, dtype=np.float32)
+    labels = np.array(labels, dtype=np.int32)
+
+    return data, labels, label_map
 
 if __name__ == "__main__":
     train_data, train_labels, class_mapping = preprocess_images("Condensed_Dataset/new_train/")
