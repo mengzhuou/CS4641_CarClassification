@@ -65,6 +65,9 @@ class ResNetModel(Model):
         self.final_pool = GlobalAveragePooling2D()
         self.flatten = Flatten()
         self.dense = Dense(self.num_classes, activation="softmax")
+        #activation = softmax may be incorrect 
+        # can probably make final layer more complex
+
 
     def call(self, inputs):
         x = self.init_data_augmentation(inputs)

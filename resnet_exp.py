@@ -11,7 +11,6 @@ import os
 from datetime import datetime
 from typing import Optional
 
-
 def load_data(test_dir: str, 
               train_dir: str, 
               validation_dir: str, 
@@ -68,21 +67,33 @@ def train_and_save_resnet(path_to_save: str,
                           img_width:int = 224,
                           channels: int = 3, 
                           kernel_size: tuple = (7,7), 
-                          filters:int=32) -> None:
+                          filters:int=32,
+                          learning_rate: float = 1e-3) -> None:
     inputs = tf.keras.Input(shape=(img_height, img_width, channels))
     outputs = ResNetModel(num_classes=num_classes, kernel_size=kernel_size, filters=filters)(inputs) 
     
     resnet_model = tf.keras.Model(inputs=inputs, outputs=outputs)  
+    lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
+        initial_learning_rate=learning_rate,
+        decay_steps=10000,
+        decay_rate=0.9
+    )
 
-    resnet_model.compile(optimizer='adam',
-              loss='sparse_categorical_crossentropy', # experiment w diff optimzers also
-              metrics=['accuracy'])
-    
+    resnet_model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=lr_schedule),
+                         loss='sparse_categorical_crossentropy',
+                         metrics=['accuracy'])
+
+    callbacks = [
+        tf.keras.callbacks.EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True),
+        tf.keras.callbacks.ModelCheckpoint(filepath=path_to_save, save_best_only=True)
+    ]
+
     fit_params = {
         'x': train_ds,
         'epochs': epochs,
         'validation_data': val_ds,
-        'verbose': 1
+        'verbose': 1,
+        'callbacks': callbacks
     }
 
     if steps_per_epoch:
