@@ -7,13 +7,35 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from gmm_model import GMM
+from sklearn.decomposition import PCA
 
-def load_and_flatten_data(data_dir, target_size=(224, 224)):
+def load_and_flatten_data_subsample(data_dir, target_size=(224, 224), sample_size=None):
     datagen = ImageDataGenerator(rescale=1./255)
-    dataset = datagen.flow_from_directory(data_dir, target_size=target_size, batch_size=32, shuffle=False)
-    data = np.array([img.flatten() for img, _ in dataset])
-    labels = np.array(dataset.classes)
-    return data, labels, dataset.class_indices
+    dataset = datagen.flow_from_directory(data_dir, target_size=target_size, batch_size=1, shuffle=True)
+    
+    data = []
+    labels = []
+    for i, (img, label) in enumerate(dataset):
+        data.append(img.flatten())
+        labels.append(label)
+        if sample_size and i >= sample_size - 1:
+            break  # Stop after reaching the sample size
+    
+    return np.array(data), np.array(labels), dataset.class_indices
+
+def reduce_dimensionality(X, n_components=100):
+    """
+    Reduces the dimensionality of the data using PCA.
+    
+    Args:
+        X: The data to reduce, as a NumPy array (N x D).
+        n_components: Number of principal components to retain.
+        
+    Returns:
+        Reduced data, as a NumPy array (N x n_components).
+    """
+    pca = PCA(n_components=n_components, random_state=42)
+    return pca.fit_transform(X)
 
 def evaluate_gmm(model, X, y, class_names, output_dir, K):
     predictions = model.predict(X)
@@ -51,13 +73,21 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Load datasets
-    train_data, train_labels, class_mapping = load_and_flatten_data(args.train_dir)
-    test_data, test_labels, _ = load_and_flatten_data(args.test_dir)
+    train_data, train_labels, class_mapping = load_and_flatten_data_subsample(args.train_dir, sample_size=5000)
+    test_data, test_labels, _ = load_and_flatten_data_subsample(args.test_dir, sample_size=5000)
+
+    # Apply PCA for dimensionality reduction
+    train_data = reduce_dimensionality(train_data, n_components=100)
+    test_data = reduce_dimensionality(test_data, n_components=100)
+
     class_names = list(class_mapping.keys())
 
     # Loop over K values
     for K in args.K_values:
-        print(f"Training GMM with K={K}...")
-        gmm = GMM(num_components=K, max_iter=args.max_iters)
-        gmm.fit(train_data)
-        evaluate_gmm(gmm, test_data, test_labels, class_names, args.output_dir, K)
+        try:
+            print(f"\n\n\n===============================\nTraining GMM with K={K}\n===============================")
+            gmm = GMM(num_components=K, max_iter=args.max_iters)
+            gmm.fit(train_data)
+            evaluate_gmm(gmm, test_data, test_labels, class_names, args.output_dir, K)
+        except Exception as e:
+            print(f"Failed to train GMM with K={K}: {e}")
