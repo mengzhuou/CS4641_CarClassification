@@ -68,7 +68,7 @@ def train_and_save_resnet(path_to_save: str,
                           channels: int = 3, 
                           kernel_size: tuple = (7,7), 
                           filters:int=32,
-                          learning_rate: float = 1e-3) -> None:
+                          learning_rate: float = 1e-4) -> None:
     inputs = tf.keras.Input(shape=(img_height, img_width, channels))
     outputs = ResNetModel(num_classes=num_classes, kernel_size=kernel_size, filters=filters)(inputs) 
     
