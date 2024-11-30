@@ -21,6 +21,9 @@ def load_and_preprocess_dataset(directory, img_height=224, img_width=224, n_comp
     
     encoded_labels = encoder.transform(labels)
     data = np.array(data)
+
+    # Normalize the data
+    data /= np.linalg.norm(data, axis=1, keepdims=True)
     
     # Determine the max allowable components for PCA
     max_components = min(data.shape[0], data.shape[1])
