@@ -59,7 +59,6 @@ def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=
             # GMM Evaluation
             print(f"  Running GMM with k={k} and covariance_type={covariance_type}...")
             gmm_labels = run_gmm(test_data, n_components=k, max_iters=max_iters, covariance_type=covariance_type)
-            calculate_silhouette_score(test_data, gmm_labels, method_name="GMM", k=k)
 
             gmm_output_dir = os.path.join(output_dir, f"gmm_k{k}_{covariance_type}")
             os.makedirs(gmm_output_dir, exist_ok=True)
@@ -71,6 +70,9 @@ def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=
                 class_names=class_names,
                 output_dir=gmm_output_dir
             )
+
+            # Calculate and print silhouette score for GMM
+            calculate_silhouette_score(test_data, gmm_labels, method_name="GMM", k=k)
             
             # Visualize GMM clusters if enabled
             if cluster_images:
@@ -86,7 +88,6 @@ def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=
             # K-Means Evaluation
             print(f"  Running K-Means with k={k}...")
             kmeans_labels = run_kmeans(test_data, n_clusters=k)
-            calculate_silhouette_score(test_data, kmeans_labels, method_name="K-Means", k=k)
 
             kmeans_output_dir = os.path.join(output_dir, f"kmeans_k{k}")
             os.makedirs(kmeans_output_dir, exist_ok=True)
@@ -98,6 +99,9 @@ def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=
                 class_names=class_names,
                 output_dir=kmeans_output_dir
             )
+
+            # Calculate and print silhouette score for K-Means
+            calculate_silhouette_score(test_data, kmeans_labels, method_name="K-Means", k=k)
 
             # Visualize K-Means clusters if enabled
             if cluster_images:
