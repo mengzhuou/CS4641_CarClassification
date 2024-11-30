@@ -19,9 +19,10 @@ JOB_ID=$SLURM_JOB_ID
 # Default values
 TRAIN_DIR="Condensed_Dataset/new_train"
 TEST_DIR="Condensed_Dataset/new_test"
-MAX_ITERS=100
+MAX_ITERS=5
 K_VALUES="10 15 20"
 OUTPUT_DIR="results/gmm/model_${JOB_ID}_${MAX_ITERS}-iters"
+N_COMPONENTS="100"
 
 # Run the GMM training script
 python gmm/gmm_pipeline.py \
@@ -29,4 +30,6 @@ python gmm/gmm_pipeline.py \
   --test_dir $TEST_DIR \
   --output_dir $OUTPUT_DIR \
   --max_iters $MAX_ITERS \
-  --K_values $K_VALUES
+  --K_values $K_VALUES \
+  --n_components $N_COMPONENTS \
+  --cluster_images
