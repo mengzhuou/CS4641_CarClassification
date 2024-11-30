@@ -16,3 +16,4 @@
 - `resnet_exp.py`: Main pipeline file that loads images into Tensorflow Datasets, and instantiates + trains + saves + evaluates Resnet model. Allows for configs like # epochs or file paths to be set via Argument Parsing flags when running the file.
 - `resnetmodel.py`: Contains Residual block class (inherits from tf's Layer class) and ResNet Model class (inherits from tf's Model class) with our architecture implementation. Instantiated in **resnet_exp.py** .
 - `train_model_tf_mod`: SBATCH script to submit GPU-accelerated tensorflow jobs to pace/ice cluster. Loads necessary modules, python environment, and runs **resnet_exp.py** with tunable flags. 
+- `analyzing_training`: Parses training logs from text file ending with .out, extracts relevant metrics (loss and accuracy), and generates plots to visualize the training and validation performance of a machine learning model.

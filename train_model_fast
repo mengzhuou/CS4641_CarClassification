@@ -14,4 +14,4 @@ RESULT_PATH="results/model_$JOB_ID"
 
 python -m pip install -r requirements.txt 
 python resnet_exp.py --model_path $MODEL_PATH --results_path $RESULT_PATH --epochs 10 --steps_per_epoch 10
-
+python analyzing_training.py --results_path $RESULT_PATH/Report-$JOB_ID.out
