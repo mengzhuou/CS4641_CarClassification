@@ -43,6 +43,7 @@ def cluster_images(data_dir, output_dir, K, max_iters=100, target_size=(224, 224
         target_size: Tuple for resizing images before clustering.
         batch_size: Number of images to process in a single batch.
     """
+    print("\nInside cluster_images()...")
     os.makedirs(output_dir, exist_ok=True)
     datagen = ImageDataGenerator(rescale=1./255)
     dataset = datagen.flow_from_directory(data_dir, target_size=target_size, batch_size=batch_size, shuffle=False)
@@ -62,6 +63,10 @@ def cluster_images(data_dir, output_dir, K, max_iters=100, target_size=(224, 224
             clustered_pixels = mu[np.argmax(tau[img_idx * (target_size[0] * target_size[1]):(img_idx + 1) * (target_size[0] * target_size[1])], axis=1)]
             clustered_img = clustered_pixels.reshape(target_size + (batch_images.shape[-1],))
             
+            # Normalize clustered image to 0..1 range
+            clustered_img -= clustered_img.min()
+            clustered_img /= clustered_img.max()
+
             # Save clustered image
             output_path = os.path.join(output_dir, f"clustered_image_{batch_idx}_{img_idx}.png")
             plt.imsave(output_path, clustered_img)
@@ -92,40 +97,38 @@ def map_clusters_to_labels(predictions, true_labels):
     Returns:
         remapped_predictions: Predictions mapped to true label space.
     """
+    # Determine the range of true labels and predicted clusters
+    num_classes = len(np.unique(true_labels))
+    num_clusters = np.max(predictions) + 1  # Account for all clusters up to the max cluster index
+
+    # Create confusion matrix of size (num_classes, num_clusters)
+    conf_matrix = np.zeros((num_classes, num_clusters), dtype=int)
+    for true_label, cluster_label in zip(true_labels, predictions):
+        conf_matrix[true_label, cluster_label] += 1
+
     print("\nInside map_clusters_to_labels()")
-    
-    # Compute the confusion matrix
-    conf_matrix = confusion_matrix(true_labels, predictions)
+    print("\nConfusion Matrix:")
+    print(conf_matrix)
 
-    # Find the most common true label for each cluster
-    mapping = np.argmax(conf_matrix, axis=0)
-
-    # Initialize mapping array
-    mapping = np.zeros(conf_matrix.shape[1], dtype=int)
-    
-    # Find the most common true label for each cluster
-    for cluster_idx in range(conf_matrix.shape[1]):
+    # Map each cluster to the most common true label
+    mapping = np.full(num_clusters, -1, dtype=int)  # Initialize with -1 for unmapped clusters
+    for cluster_idx in range(num_clusters):
         if conf_matrix[:, cluster_idx].sum() > 0:
             mapping[cluster_idx] = np.argmax(conf_matrix[:, cluster_idx])
-        else:
-            mapping[cluster_idx] = -1  # Mark unmapped clusters
+
+    print("Mapping of clusters to labels:", mapping)
 
     # Remap predictions to the true label space
     remapped_predictions = np.array([
         mapping[cluster] if mapping[cluster] != -1 else mode(true_labels).mode[0]
         for cluster in predictions
     ])
-
-    print(f"\nConfusion Matrix:\n{conf_matrix}")
-    print(f"\nMapping of clusters to labels: {mapping}")
-
     return remapped_predictions
 
 def evaluate_gmm(model, X, y, class_names, output_dir, K):
     """
     Evaluates the GMM model and saves results.
     """
-    print("\nInside evaluate_gmm()...")
     # Convert one-hot encoded labels to class indices if necessary
     # if y.ndim > 1 and y.shape[1] > 1:
     #     print("Converting one-hot encoded labels to class indices.")
@@ -135,34 +138,39 @@ def evaluate_gmm(model, X, y, class_names, output_dir, K):
     predictions = model.predict(X)
 
     # for debugging
+    print("\nInside evaluate_gmm()...")
     print("True labels (y):", y[:10])  # Display the first 10 labels
     print("Predictions:", predictions[:10])  # Display the first 10 predictions
     print("Unique classes in true labels:", np.unique(y))
     print("Unique classes in predictions:", np.unique(predictions))
-    print("Type of labels:", type(y[0]))
-    print("Type of predictions:", type(predictions[0]))
+    # print("Type of labels:", type(y[0]))
+    # print("Type of predictions:", type(predictions[0]))
 
     # Map GMM clusters to true labels
     remapped_predictions = map_clusters_to_labels(predictions, y)
 
     # Ensure labels and predictions are integers
-    if y.dtype != predictions.dtype:
-        print("Converting labels and predictions to the same type.")
-        y = y.astype(np.int32)
-        predictions = predictions.astype(np.int32)
+    # if y.dtype != predictions.dtype:
+    #     print("Converting labels and predictions to the same type.")
+    #     y = y.astype(np.int32)
+    #     predictions = predictions.astype(np.int32)
 
-    # Validate shape and content
-    assert y.shape == predictions.shape, "Mismatch in shape between labels and predictions"
-    assert y.dtype == predictions.dtype, "Mismatch in dtype between labels and predictions"
+    # # Validate shape and content
+    # assert y.shape == predictions.shape, "Mismatch in shape between labels and predictions"
+    # assert y.dtype == predictions.dtype, "Mismatch in dtype between labels and predictions"
+
+    # Ensure the number of class names matches unique true labels
+    unique_classes = np.unique(y)
+    adjusted_class_names = [class_names[c] for c in unique_classes]
 
     # calculate metrics
-    accuracy = accuracy_score(y, predictions)
-    f1 = f1_score(y, predictions, average='weighted')
-    fms = fowlkes_mallows_score(y, predictions)
+    accuracy = accuracy_score(y, remapped_predictions)
+    f1 = f1_score(y, remapped_predictions, average='weighted')
+    fms = fowlkes_mallows_score(y, remapped_predictions)
 
     # Generate and save classification report
-    report = classification_report(y, predictions, target_names=class_names)
-    conf_matrix = confusion_matrix(y, predictions)
+    report = classification_report(y, remapped_predictions, target_names=adjusted_class_names)
+    conf_matrix = confusion_matrix(y, remapped_predictions)
 
     os.makedirs(output_dir, exist_ok=True)
     report_path = os.path.join(output_dir, f"classification_report_K{K}.txt")
@@ -171,7 +179,7 @@ def evaluate_gmm(model, X, y, class_names, output_dir, K):
 
     # Plot and save confusion matrix
     plt.figure(figsize=(10, 8))
-    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=class_names, yticklabels=class_names)
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=adjusted_class_names, yticklabels=adjusted_class_names)
     plt.xlabel('Predicted')
     plt.ylabel('True')
     plt.title(f'Confusion Matrix (K={K})')
