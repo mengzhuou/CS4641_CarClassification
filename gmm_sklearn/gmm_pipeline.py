@@ -1,10 +1,32 @@
 import os
 from sklearn.cluster import KMeans
+from sklearn.cluster import DBSCAN
+from sklearn.cluster import SpectralClustering
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics import silhouette_score
 from data_loader import load_and_preprocess_dataset
 from metrics import evaluate_metrics
 from visualization import visualize_clusters, save_sample_images
+
+def run_dbscan(data, eps=0.5, min_samples=5):
+    """
+    Train and predict using DBSCAN.
+    """
+    dbscan = DBSCAN(eps=eps, min_samples=min_samples)
+    predicted_labels = dbscan.fit_predict(data)
+    return predicted_labels
+
+def run_spectral_clustering(data, n_clusters):
+    """
+    Train and predict using Spectral Clustering.
+    """
+    spectral = SpectralClustering(
+        n_clusters=n_clusters,
+        affinity='nearest_neighbors',
+        random_state=42
+    )
+    predicted_labels = spectral.fit_predict(data)
+    return predicted_labels
 
 def run_gmm(data, n_components, max_iters, covariance_type):
     """
@@ -38,12 +60,12 @@ def calculate_silhouette_score(data, labels, method_name, k):
     print(f"Silhouette Score for {method_name} with k={k}: {silhouette_avg:.4f}")
     return silhouette_avg
 
-def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=10, pca_components=50, cluster_images=False):
+def main(train_dir, test_dir, output_dir, k_values, covariance_types, eps_values, min_samples_values, max_iters=10, pca_components=50, cluster_images=False):
     os.makedirs(output_dir, exist_ok=True)
     
-    # Load datasets with with CNN features and PCA
-    train_data, train_labels, class_names = load_and_preprocess_dataset(train_dir, n_components=pca_components, use_cnn=True)
-    test_data, test_labels, _ = load_and_preprocess_dataset(test_dir, n_components=pca_components, use_cnn=True)
+    # Load datasets with PCA
+    train_data, train_labels, class_names = load_and_preprocess_dataset(train_dir, n_components=pca_components)
+    test_data, test_labels, _ = load_and_preprocess_dataset(test_dir, n_components=pca_components)
     
     # Iterate over k_values and covariance_types for GMM
     for covariance_type in covariance_types:
@@ -85,6 +107,17 @@ def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=
                     image_size=(224, 224)
                 )
 
+            # Spectral Clustering
+            print(f"  Running Spectral Clustering with k={k}...")
+            spectral_labels = run_spectral_clustering(test_data, n_clusters=k)
+            spectral_output_dir = os.path.join(output_dir, f"spectral_k{k}")
+            os.makedirs(spectral_output_dir, exist_ok=True)
+
+            evaluate_metrics(test_labels, spectral_labels, class_names, spectral_output_dir)
+            calculate_silhouette_score(test_data, spectral_labels, method_name="Spectral Clustering", k=k)
+            if cluster_images:
+                visualize_clusters(test_data, test_labels, spectral_labels, spectral_output_dir)
+
             # K-Means Evaluation
             print(f"  Running K-Means with k={k}...")
             kmeans_labels = run_kmeans(test_data, n_clusters=k)
@@ -114,6 +147,19 @@ def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=
                     image_size=(224, 224)
                 )
 
+    # DBSCAN
+    for eps in eps_values:
+        for min_samples in min_samples_values:
+            print(f"\nRunning DBSCAN with eps={eps} and min_samples={min_samples}...")
+            dbscan_labels = run_dbscan(test_data, eps=eps, min_samples=min_samples)
+            dbscan_output_dir = os.path.join(output_dir, f"dbscan_eps{eps}_min{min_samples}")
+            os.makedirs(dbscan_output_dir, exist_ok=True)
+
+            evaluate_metrics(test_labels, dbscan_labels, class_names, dbscan_output_dir)
+            calculate_silhouette_score(test_data, dbscan_labels, method_name="DBSCAN", k=None)
+            if cluster_images:
+                visualize_clusters(test_data, test_labels, dbscan_labels, dbscan_output_dir)
+
 if __name__ == "__main__":
     import argparse
 
@@ -123,6 +169,8 @@ if __name__ == "__main__":
     parser.add_argument('--output_dir', type=str, required=True, help='Directory to save outputs')
     parser.add_argument('--k_values', type=int, nargs='+', default=[5, 10, 20], help='List of k values (number of clusters)')
     parser.add_argument('--covariance_type', type=str, nargs='+', default=['full'], choices=['full', 'tied', 'diag', 'spherical'], help='List of covariance types for GMM')
+    parser.add_argument('--eps_values', type=float, nargs='+', default=[0.3, 0.5, 0.7], help='List of eps values for DBSCAN')
+    parser.add_argument('--min_samples_values', type=int, nargs='+', default=[5, 10], help='List of min_samples values for DBSCAN')
     parser.add_argument('--max_iters', type=int, default=10, help='Maximum number of iterations for GMM')
     parser.add_argument('--pca_components', type=int, default=50, help='Number of PCA components')
     parser.add_argument('--cluster_images', action='store_true', help='Enable clustering and visualization')
@@ -134,6 +182,8 @@ if __name__ == "__main__":
         args.output_dir,
         args.k_values,
         args.covariance_type,
+        args.eps_values,
+        args.min_samples_values,
         args.max_iters,
         args.pca_components,
         args.cluster_images
