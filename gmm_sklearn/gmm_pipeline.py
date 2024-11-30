@@ -1,6 +1,7 @@
 import os
 from sklearn.cluster import KMeans
 from sklearn.mixture import GaussianMixture
+from sklearn.metrics import silhouette_score
 from data_loader import load_and_preprocess_dataset
 from metrics import evaluate_metrics
 from visualization import visualize_clusters, save_sample_images
@@ -29,6 +30,14 @@ def run_kmeans(data, n_clusters):
     predicted_labels = kmeans.predict(data)
     return predicted_labels
 
+def calculate_silhouette_score(data, labels, method_name, k):
+    """
+    Calculate and print the silhouette score for clustering.
+    """
+    silhouette_avg = silhouette_score(data, labels)
+    print(f"Silhouette Score for {method_name} with k={k}: {silhouette_avg:.4f}")
+    return silhouette_avg
+
 def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=10, pca_components=50, cluster_images=False):
     os.makedirs(output_dir, exist_ok=True)
     
@@ -50,6 +59,8 @@ def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=
             # GMM Evaluation
             print(f"  Running GMM with k={k} and covariance_type={covariance_type}...")
             gmm_labels = run_gmm(test_data, n_components=k, max_iters=max_iters, covariance_type=covariance_type)
+            calculate_silhouette_score(test_data, gmm_labels, method_name="GMM", k=k)
+
             gmm_output_dir = os.path.join(output_dir, f"gmm_k{k}_{covariance_type}")
             os.makedirs(gmm_output_dir, exist_ok=True)
         
@@ -75,14 +86,20 @@ def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=
             # K-Means Evaluation
             print(f"  Running K-Means with k={k}...")
             kmeans_labels = run_kmeans(test_data, n_clusters=k)
+            calculate_silhouette_score(test_data, kmeans_labels, method_name="K-Means", k=k)
+
             kmeans_output_dir = os.path.join(output_dir, f"kmeans_k{k}")
             os.makedirs(kmeans_output_dir, exist_ok=True)
+
+            # Evaluate metrics
             evaluate_metrics(
                 true_labels=test_labels,
                 predicted_labels=kmeans_labels,
                 class_names=class_names,
                 output_dir=kmeans_output_dir
             )
+
+            # Visualize K-Means clusters if enabled
             if cluster_images:
                 visualize_clusters(test_data, test_labels, kmeans_labels, kmeans_output_dir)
                 save_sample_images(
