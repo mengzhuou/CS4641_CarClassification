@@ -63,7 +63,7 @@ def evaluate_metrics(true_labels, predicted_labels, class_names, output_dir):
         f.write(report)
     
     # Save confusion matrix as a heatmap
-    plt.figure(figsize=(16, 12))
+    plt.figure(figsize=(14, 14))
     sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=unique_class_names, yticklabels=unique_class_names)
     plt.xlabel('Predicted Labels')
     plt.ylabel('True Labels')

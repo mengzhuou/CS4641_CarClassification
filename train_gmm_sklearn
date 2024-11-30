@@ -23,5 +23,5 @@ python gmm_sklearn/gmm_pipeline.py \
   --k_values 2 3 5 7 10 15 \
   --max_iters $MAX_ITERS \
   --pca_components $PCA_COMPONENTS \
-  --covariance_type full diag \
+  --covariance_type full diag tied spherical \
   --cluster_images

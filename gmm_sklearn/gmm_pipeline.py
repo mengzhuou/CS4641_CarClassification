@@ -41,9 +41,9 @@ def calculate_silhouette_score(data, labels, method_name, k):
 def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=10, pca_components=50, cluster_images=False):
     os.makedirs(output_dir, exist_ok=True)
     
-    # Load datasets with PCA
-    train_data, train_labels, class_names = load_and_preprocess_dataset(train_dir, n_components=pca_components)
-    test_data, test_labels, _ = load_and_preprocess_dataset(test_dir, n_components=pca_components)
+    # Load datasets with with CNN features and PCA
+    train_data, train_labels, class_names = load_and_preprocess_dataset(train_dir, n_components=pca_components, use_cnn=True)
+    test_data, test_labels, _ = load_and_preprocess_dataset(test_dir, n_components=pca_components, use_cnn=True)
     
     # Iterate over k_values and covariance_types for GMM
     for covariance_type in covariance_types:
