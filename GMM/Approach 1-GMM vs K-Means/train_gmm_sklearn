@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH -J gmm_model
+#SBATCH --gres=gpu:1
+#SBATCH --mem-per-gpu=32G
+#SBATCH -t3:00:00
+#SBATCH -oReport-%j.out
+#SBATCH --mail-type=BEGIN,END,FAIL
+#SBATCH --mail-user=gcanales6@gatech.edu
+
+module load python/3.10.10
+
+JOB_ID=$SLURM_JOB_ID
+TRAIN_DIR="Condensed_Dataset/new_train"
+TEST_DIR="Condensed_Dataset/new_test"
+MAX_ITERS=100
+PCA_COMPONENTS=50
+OUTPUT_DIR="results/gmm_sklearn/model_${JOB_ID}_${MAX_ITERS}-iters_${PCA_COMPONENTS}-pca-components"
+
+python gmm_sklearn/gmm_pipeline.py \
+  --train_dir $TRAIN_DIR \
+  --test_dir $TEST_DIR \
+  --output_dir $OUTPUT_DIR \
+  --k_values 2 3 5 7 10 15 \
+  --max_iters $MAX_ITERS \
+  --pca_components $PCA_COMPONENTS \
+  --covariance_type full diag \
+  --cluster_images

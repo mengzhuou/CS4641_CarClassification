@@ -1,0 +1,894 @@
+---------------------------------------
+Begin Slurm Prolog: Nov-30-2024 19:24:55
+Job ID:    998281
+User ID:   gcanales6
+Account:   coc
+Job name:  gmm_model
+Partition: coc-gpu
+---------------------------------------
+2024-11-30 19:25:02.507986: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-11-30 19:25:02.526642: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:477] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1733012702.548874  990007 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1733012702.555702  990007 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-11-30 19:25:02.577693: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/storage/ice1/6/4/gcanales6/CS4641_CarClassification/gmm_sklearn/metrics.py:66: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+  plt.figure(figsize=(14, 14))
+/storage/ice1/6/4/gcanales6/CS4641_CarClassification/gmm_sklearn/visualization.py:26: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+  plt.figure(figsize=(12, 8))
+PCA reduced data to 50 dimensions
+PCA reduced data to 50 dimensions
+
+Running clustering with k=2 and covariance_type=full...
+  Running GMM with k=2 and covariance_type=full...
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.16
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k2_full/confusion_matrix.png
+Silhouette Score for GMM with k=2: 0.1064
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=2...
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.15
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k2/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=2: 0.1240
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=2...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.15
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k2/confusion_matrix.png
+Silhouette Score for K-Means with k=2: 0.1398
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=3 and covariance_type=full...
+  Running GMM with k=3 and covariance_type=full...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.13
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k3_full/confusion_matrix.png
+Silhouette Score for GMM with k=3: 0.0831
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=3...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.14
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k3/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=3: 0.1008
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=3...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.13
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k3/confusion_matrix.png
+Silhouette Score for K-Means with k=3: 0.1245
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=5 and covariance_type=full...
+  Running GMM with k=5 and covariance_type=full...
+Accuracy: 0.05
+Precision: 0.01
+Recall: 0.05
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.11
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k5_full/confusion_matrix.png
+Silhouette Score for GMM with k=5: 0.0523
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=5...
+Accuracy: 0.04
+Precision: 0.01
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.12
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k5/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=5: 0.0939
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=5...
+Accuracy: 0.04
+Precision: 0.01
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k5/confusion_matrix.png
+Silhouette Score for K-Means with k=5: 0.0951
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=7 and covariance_type=full...
+  Running GMM with k=7 and covariance_type=full...
+Accuracy: 0.04
+Precision: 0.01
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k7_full/confusion_matrix.png
+Silhouette Score for GMM with k=7: 0.0549
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=7...
+Accuracy: 0.03
+Precision: 0.02
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k7/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=7: 0.0801
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=7...
+Accuracy: 0.03
+Precision: 0.01
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k7/confusion_matrix.png
+Silhouette Score for K-Means with k=7: 0.0920
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=10 and covariance_type=full...
+  Running GMM with k=10 and covariance_type=full...
+Accuracy: 0.05
+Precision: 0.02
+Recall: 0.05
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.07
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k10_full/confusion_matrix.png
+Silhouette Score for GMM with k=10: 0.0699
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=10...
+Accuracy: 0.04
+Precision: 0.03
+Recall: 0.04
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k10/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=10: 0.0749
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=10...
+Accuracy: 0.05
+Precision: 0.03
+Recall: 0.05
+F1 Score: 0.04
+Fowlkes-Mallows Score: 0.08
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k10/confusion_matrix.png
+Silhouette Score for K-Means with k=10: 0.0867
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=15 and covariance_type=full...
+  Running GMM with k=15 and covariance_type=full...
+Accuracy: 0.03
+Precision: 0.03
+Recall: 0.03
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.06
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k15_full/confusion_matrix.png
+Silhouette Score for GMM with k=15: 0.0678
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=15...
+Accuracy: 0.02
+Precision: 0.03
+Recall: 0.02
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.07
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k15/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=15: 0.0580
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=15...
+Accuracy: 0.03
+Precision: 0.03
+Recall: 0.03
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.06
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k15/confusion_matrix.png
+Silhouette Score for K-Means with k=15: 0.0713
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=2 and covariance_type=diag...
+  Running GMM with k=2 and covariance_type=diag...
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.16
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k2_diag/confusion_matrix.png
+Silhouette Score for GMM with k=2: 0.0755
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=2...
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.15
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k2/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=2: 0.1240
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=2...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.15
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k2/confusion_matrix.png
+Silhouette Score for K-Means with k=2: 0.1398
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=3 and covariance_type=diag...
+  Running GMM with k=3 and covariance_type=diag...
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.14
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k3_diag/confusion_matrix.png
+Silhouette Score for GMM with k=3: 0.0564
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=3...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.14
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k3/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=3: 0.1008
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=3...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.13
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k3/confusion_matrix.png
+Silhouette Score for K-Means with k=3: 0.1245
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=5 and covariance_type=diag...
+  Running GMM with k=5 and covariance_type=diag...
+Accuracy: 0.05
+Precision: 0.01
+Recall: 0.05
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.12
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k5_diag/confusion_matrix.png
+Silhouette Score for GMM with k=5: 0.0162
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=5...
+Accuracy: 0.04
+Precision: 0.01
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.12
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k5/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=5: 0.0939
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=5...
+Accuracy: 0.04
+Precision: 0.01
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k5/confusion_matrix.png
+Silhouette Score for K-Means with k=5: 0.0951
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=7 and covariance_type=diag...
+  Running GMM with k=7 and covariance_type=diag...
+Accuracy: 0.03
+Precision: 0.01
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k7_diag/confusion_matrix.png
+Silhouette Score for GMM with k=7: 0.0243
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=7...
+Accuracy: 0.03
+Precision: 0.02
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k7/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=7: 0.0801
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=7...
+Accuracy: 0.03
+Precision: 0.01
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k7/confusion_matrix.png
+Silhouette Score for K-Means with k=7: 0.0920
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=10 and covariance_type=diag...
+  Running GMM with k=10 and covariance_type=diag...
+Accuracy: 0.04
+Precision: 0.02
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.08
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k10_diag/confusion_matrix.png
+Silhouette Score for GMM with k=10: 0.0317
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=10...
+Accuracy: 0.04
+Precision: 0.03
+Recall: 0.04
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k10/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=10: 0.0749
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=10...
+Accuracy: 0.05
+Precision: 0.03
+Recall: 0.05
+F1 Score: 0.04
+Fowlkes-Mallows Score: 0.08
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k10/confusion_matrix.png
+Silhouette Score for K-Means with k=10: 0.0867
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=15 and covariance_type=diag...
+  Running GMM with k=15 and covariance_type=diag...
+Accuracy: 0.03
+Precision: 0.03
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.07
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k15_diag/confusion_matrix.png
+Silhouette Score for GMM with k=15: 0.0120
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=15...
+Accuracy: 0.02
+Precision: 0.03
+Recall: 0.02
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.07
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k15/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=15: 0.0580
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=15...
+Accuracy: 0.03
+Precision: 0.03
+Recall: 0.03
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.06
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k15/confusion_matrix.png
+Silhouette Score for K-Means with k=15: 0.0713
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=2 and covariance_type=tied...
+  Running GMM with k=2 and covariance_type=tied...
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.16
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k2_tied/confusion_matrix.png
+Silhouette Score for GMM with k=2: 0.1224
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=2...
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.15
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k2/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=2: 0.1240
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=2...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.15
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k2/confusion_matrix.png
+Silhouette Score for K-Means with k=2: 0.1398
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=3 and covariance_type=tied...
+  Running GMM with k=3 and covariance_type=tied...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.14
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k3_tied/confusion_matrix.png
+Silhouette Score for GMM with k=3: 0.0839
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=3...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.14
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k3/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=3: 0.1008
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=3...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.13
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k3/confusion_matrix.png
+Silhouette Score for K-Means with k=3: 0.1245
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=5 and covariance_type=tied...
+  Running GMM with k=5 and covariance_type=tied...
+Accuracy: 0.04
+Precision: 0.01
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.11
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k5_tied/confusion_matrix.png
+Silhouette Score for GMM with k=5: 0.0745
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=5...
+Accuracy: 0.04
+Precision: 0.01
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.12
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k5/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=5: 0.0939
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=5...
+Accuracy: 0.04
+Precision: 0.01
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k5/confusion_matrix.png
+Silhouette Score for K-Means with k=5: 0.0951
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=7 and covariance_type=tied...
+  Running GMM with k=7 and covariance_type=tied...
+Accuracy: 0.03
+Precision: 0.01
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k7_tied/confusion_matrix.png
+Silhouette Score for GMM with k=7: 0.0574
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=7...
+Accuracy: 0.03
+Precision: 0.02
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k7/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=7: 0.0801
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=7...
+Accuracy: 0.03
+Precision: 0.01
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k7/confusion_matrix.png
+Silhouette Score for K-Means with k=7: 0.0920
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=10 and covariance_type=tied...
+  Running GMM with k=10 and covariance_type=tied...
+Accuracy: 0.03
+Precision: 0.02
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.08
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k10_tied/confusion_matrix.png
+Silhouette Score for GMM with k=10: 0.0403
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=10...
+Accuracy: 0.04
+Precision: 0.03
+Recall: 0.04
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k10/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=10: 0.0749
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=10...
+Accuracy: 0.05
+Precision: 0.03
+Recall: 0.05
+F1 Score: 0.04
+Fowlkes-Mallows Score: 0.08
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k10/confusion_matrix.png
+Silhouette Score for K-Means with k=10: 0.0867
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=15 and covariance_type=tied...
+  Running GMM with k=15 and covariance_type=tied...
+Accuracy: 0.02
+Precision: 0.02
+Recall: 0.02
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.07
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k15_tied/confusion_matrix.png
+Silhouette Score for GMM with k=15: 0.0397
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=15...
+Accuracy: 0.02
+Precision: 0.03
+Recall: 0.02
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.07
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k15/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=15: 0.0580
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=15...
+Accuracy: 0.03
+Precision: 0.03
+Recall: 0.03
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.06
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k15/confusion_matrix.png
+Silhouette Score for K-Means with k=15: 0.0713
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=2 and covariance_type=spherical...
+  Running GMM with k=2 and covariance_type=spherical...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.15
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k2_spherical/confusion_matrix.png
+Silhouette Score for GMM with k=2: 0.1175
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=2...
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.15
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k2/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=2: 0.1240
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=2...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.15
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k2/confusion_matrix.png
+Silhouette Score for K-Means with k=2: 0.1398
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=3 and covariance_type=spherical...
+  Running GMM with k=3 and covariance_type=spherical...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.13
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k3_spherical/confusion_matrix.png
+Silhouette Score for GMM with k=3: 0.1211
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=3...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.14
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k3/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=3: 0.1008
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=3...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.13
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k3/confusion_matrix.png
+Silhouette Score for K-Means with k=3: 0.1245
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=5 and covariance_type=spherical...
+  Running GMM with k=5 and covariance_type=spherical...
+Accuracy: 0.05
+Precision: 0.01
+Recall: 0.05
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.11
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k5_spherical/confusion_matrix.png
+Silhouette Score for GMM with k=5: 0.0965
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=5...
+Accuracy: 0.04
+Precision: 0.01
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.12
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k5/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=5: 0.0939
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=5...
+Accuracy: 0.04
+Precision: 0.01
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k5/confusion_matrix.png
+Silhouette Score for K-Means with k=5: 0.0951
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=7 and covariance_type=spherical...
+  Running GMM with k=7 and covariance_type=spherical...
+Accuracy: 0.05
+Precision: 0.01
+Recall: 0.05
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k7_spherical/confusion_matrix.png
+Silhouette Score for GMM with k=7: 0.0868
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=7...
+Accuracy: 0.03
+Precision: 0.02
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k7/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=7: 0.0801
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=7...
+Accuracy: 0.03
+Precision: 0.01
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k7/confusion_matrix.png
+Silhouette Score for K-Means with k=7: 0.0920
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=10 and covariance_type=spherical...
+  Running GMM with k=10 and covariance_type=spherical...
+Accuracy: 0.04
+Precision: 0.02
+Recall: 0.04
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.07
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k10_spherical/confusion_matrix.png
+Silhouette Score for GMM with k=10: 0.0771
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=10...
+Accuracy: 0.04
+Precision: 0.03
+Recall: 0.04
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k10/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=10: 0.0749
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=10...
+Accuracy: 0.05
+Precision: 0.03
+Recall: 0.05
+F1 Score: 0.04
+Fowlkes-Mallows Score: 0.08
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k10/confusion_matrix.png
+Silhouette Score for K-Means with k=10: 0.0867
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=15 and covariance_type=spherical...
+  Running GMM with k=15 and covariance_type=spherical...
+Accuracy: 0.03
+Precision: 0.03
+Recall: 0.03
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.06
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/gmm_k15_spherical/confusion_matrix.png
+Silhouette Score for GMM with k=15: 0.0633
+Using t-SNE with perplexity=30 and sample size=100
+  Running Spectral Clustering with k=15...
+Accuracy: 0.02
+Precision: 0.03
+Recall: 0.02
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.07
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/spectral_k15/confusion_matrix.png
+Silhouette Score for Spectral Clustering with k=15: 0.0580
+Using t-SNE with perplexity=30 and sample size=100
+  Running K-Means with k=15...
+Accuracy: 0.03
+Precision: 0.03
+Recall: 0.03
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.06
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/kmeans_k15/confusion_matrix.png
+Silhouette Score for K-Means with k=15: 0.0713
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=0.1 and min_samples=3...
+DBSCAN with eps=0.1, min_samples=3 found 3 clusters.
+Accuracy: 0.00
+Precision: 0.00
+Recall: 0.00
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps0.1_min3/confusion_matrix.png
+Silhouette Score for DBSCAN with k=None: 0.0054
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=0.1 and min_samples=5...
+DBSCAN with eps=0.1, min_samples=5 found 1 clusters.
+Accuracy: 0.00
+Precision: 0.00
+Recall: 0.00
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps0.1_min5/confusion_matrix.png
+Silhouette Score for DBSCAN skipped: only one cluster found.
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=0.1 and min_samples=10...
+DBSCAN with eps=0.1, min_samples=10 found 1 clusters.
+Accuracy: 0.00
+Precision: 0.00
+Recall: 0.00
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps0.1_min10/confusion_matrix.png
+Silhouette Score for DBSCAN skipped: only one cluster found.
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=0.3 and min_samples=3...
+DBSCAN with eps=0.3, min_samples=3 found 2 clusters.
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps0.3_min3/confusion_matrix.png
+Silhouette Score for DBSCAN with k=None: 0.2574
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=0.3 and min_samples=5...
+DBSCAN with eps=0.3, min_samples=5 found 2 clusters.
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps0.3_min5/confusion_matrix.png
+Silhouette Score for DBSCAN with k=None: 0.2574
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=0.3 and min_samples=10...
+DBSCAN with eps=0.3, min_samples=10 found 2 clusters.
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps0.3_min10/confusion_matrix.png
+Silhouette Score for DBSCAN with k=None: 0.2595
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=0.5 and min_samples=3...
+DBSCAN with eps=0.5, min_samples=3 found 1 clusters.
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps0.5_min3/confusion_matrix.png
+Silhouette Score for DBSCAN skipped: only one cluster found.
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=0.5 and min_samples=5...
+DBSCAN with eps=0.5, min_samples=5 found 1 clusters.
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps0.5_min5/confusion_matrix.png
+Silhouette Score for DBSCAN skipped: only one cluster found.
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=0.5 and min_samples=10...
+DBSCAN with eps=0.5, min_samples=10 found 1 clusters.
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps0.5_min10/confusion_matrix.png
+Silhouette Score for DBSCAN skipped: only one cluster found.
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=0.7 and min_samples=3...
+DBSCAN with eps=0.7, min_samples=3 found 1 clusters.
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps0.7_min3/confusion_matrix.png
+Silhouette Score for DBSCAN skipped: only one cluster found.
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=0.7 and min_samples=5...
+DBSCAN with eps=0.7, min_samples=5 found 1 clusters.
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps0.7_min5/confusion_matrix.png
+Silhouette Score for DBSCAN skipped: only one cluster found.
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=0.7 and min_samples=10...
+DBSCAN with eps=0.7, min_samples=10 found 1 clusters.
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps0.7_min10/confusion_matrix.png
+Silhouette Score for DBSCAN skipped: only one cluster found.
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=1.0 and min_samples=3...
+DBSCAN with eps=1.0, min_samples=3 found 1 clusters.
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps1.0_min3/confusion_matrix.png
+Silhouette Score for DBSCAN skipped: only one cluster found.
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=1.0 and min_samples=5...
+DBSCAN with eps=1.0, min_samples=5 found 1 clusters.
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps1.0_min5/confusion_matrix.png
+Silhouette Score for DBSCAN skipped: only one cluster found.
+Using t-SNE with perplexity=30 and sample size=100
+
+Running DBSCAN with eps=1.0 and min_samples=10...
+DBSCAN with eps=1.0, min_samples=10 found 1 clusters.
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.21
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998281_100-iters_50-pca-components/dbscan_eps1.0_min10/confusion_matrix.png
+Silhouette Score for DBSCAN skipped: only one cluster found.
+Using t-SNE with perplexity=30 and sample size=100
+---------------------------------------
+Begin Slurm Epilog: Nov-30-2024 19:36:01
+Job ID:        998281
+Array Job ID:  _4294967294
+User ID:       gcanales6
+Account:       coc
+Job name:      gmm_model
+Resources:     cpu=1,gres/gpu:rtx_6000=1,mem=32G,node=1
+Rsrc Used:     cput=00:11:08,vmem=0,walltime=00:11:08,mem=22828212K,energy_used=0
+Partition:     coc-gpu
+Nodes:         atl1-1-01-005-7-0
+---------------------------------------
