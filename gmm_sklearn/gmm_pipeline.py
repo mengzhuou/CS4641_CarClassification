@@ -1,10 +1,51 @@
 import os
 from sklearn.cluster import KMeans
 from sklearn.mixture import GaussianMixture
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import silhouette_score
 from data_loader import load_and_preprocess_dataset
 from metrics import evaluate_metrics
 from visualization import visualize_clusters, save_sample_images
+
+def train_random_forest(X_train, y_train, X_test, y_test, class_names, output_dir):
+    """
+    Train and evaluate a Random Forest Classifier.
+    """
+    print("Training Random Forest Classifier...")
+    rf_clf = RandomForestClassifier(n_estimators=100, random_state=42)
+    rf_clf.fit(X_train, y_train)
+
+    print("Evaluating Random Forest...")
+    rf_predictions = rf_clf.predict(X_test)
+
+    # Evaluate metrics using provided metrics.py
+    evaluate_metrics(
+        true_labels=y_test,
+        predicted_labels=rf_predictions,
+        class_names=class_names,
+        output_dir=os.path.join(output_dir, "random_forest")
+    )
+
+def train_svm(X_train, y_train, X_test, y_test, class_names, output_dir):
+    """
+    Train and evaluate an SVM Classifier.
+    """
+    print("Training SVM Classifier...")
+    svm_clf = SVC(kernel='linear', random_state=42)
+    svm_clf.fit(X_train, y_train)
+
+    print("Evaluating SVM...")
+    svm_predictions = svm_clf.predict(X_test)
+
+    # Evaluate metrics using provided metrics.py
+    evaluate_metrics(
+        true_labels=y_test,
+        predicted_labels=svm_predictions,
+        class_names=class_names,
+        output_dir=os.path.join(output_dir, "svm")
+    )
 
 def run_kmeans_gmm_hybrid(data, n_clusters, max_iters, covariance_type):
     """
@@ -62,13 +103,32 @@ def calculate_silhouette_score(data, labels, method_name, k):
     print(f"Silhouette Score for {method_name} with k={k}: {silhouette_avg:.4f}")
     return silhouette_avg
 
-def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=10, pca_components=50, cluster_images=False):
+def main(train_dir, test_dir, output_dir, k_values, covariance_types,max_iters=10, pca_components=50, cluster_images=False, run_supervised=False):
     os.makedirs(output_dir, exist_ok=True)
     
     # Load datasets with PCA
     train_data, train_labels, class_names = load_and_preprocess_dataset(train_dir, n_components=pca_components)
     test_data, test_labels, _ = load_and_preprocess_dataset(test_dir, n_components=pca_components)
+
+    # Supervised Learning Section
+    if run_supervised:
+        print("\nRunning Supervised Learning...")
+        supervised_output_dir = os.path.join(output_dir, "supervised_learning")
+        os.makedirs(supervised_output_dir, exist_ok=True)
+
+        train_random_forest(
+            X_train=train_data, y_train=train_labels,
+            X_test=test_data, y_test=test_labels,
+            class_names=class_names, output_dir=supervised_output_dir
+        )
+
+        train_svm(
+            X_train=train_data, y_train=train_labels,
+            X_test=test_data, y_test=test_labels,
+            class_names=class_names, output_dir=supervised_output_dir
+        )
     
+    # Clustering Section
     # Iterate over k_values and covariance_types for GMM
     for covariance_type in covariance_types:
         for k in k_values:
@@ -109,35 +169,6 @@ def main(train_dir, test_dir, output_dir, k_values, covariance_types, max_iters=
                     image_size=(224, 224)
                 )
 
-            # K-Means Evaluation
-            # print(f"  Running K-Means with k={k}...")
-            # kmeans_labels = run_kmeans(test_data, n_clusters=k)
-
-            # kmeans_output_dir = os.path.join(output_dir, f"kmeans_k{k}")
-            # os.makedirs(kmeans_output_dir, exist_ok=True)
-
-            # # Evaluate metrics
-            # evaluate_metrics(
-            #     true_labels=test_labels,
-            #     predicted_labels=kmeans_labels,
-            #     class_names=class_names,
-            #     output_dir=kmeans_output_dir
-            # )
-
-            # # Calculate and print silhouette score for K-Means
-            # calculate_silhouette_score(test_data, kmeans_labels, method_name="K-Means", k=k)
-
-            # # Visualize K-Means clusters if enabled
-            # if cluster_images:
-            #     visualize_clusters(test_data, test_labels, kmeans_labels, kmeans_output_dir)
-            #     save_sample_images(
-            #         data_dir=test_dir,
-            #         cluster_assignments=kmeans_labels,
-            #         labels=test_labels,
-            #         output_dir=os.path.join(kmeans_output_dir, "sample_images"),
-            #         image_size=(224, 224)
-            #     )
-
 if __name__ == "__main__":
     import argparse
 
@@ -150,6 +181,7 @@ if __name__ == "__main__":
     parser.add_argument('--max_iters', type=int, default=10, help='Maximum number of iterations for GMM')
     parser.add_argument('--pca_components', type=int, default=50, help='Number of PCA components')
     parser.add_argument('--cluster_images', action='store_true', help='Enable clustering and visualization')
+    parser.add_argument('--run_supervised', action='store_true', help='Enable supervised learning with Random Forest and SVM')
 
     args = parser.parse_args()
     main(
@@ -160,5 +192,6 @@ if __name__ == "__main__":
         args.covariance_type,
         args.max_iters,
         args.pca_components,
-        args.cluster_images
+        args.cluster_images,
+        args.run_supervised
     )

@@ -13,7 +13,7 @@ JOB_ID=$SLURM_JOB_ID
 TRAIN_DIR="Condensed_Dataset/new_train"
 TEST_DIR="Condensed_Dataset/new_test"
 MAX_ITERS=100
-PCA_COMPONENTS=50
+PCA_COMPONENTS=100
 OUTPUT_DIR="results/gmm_sklearn/model_${JOB_ID}_${MAX_ITERS}-iters_${PCA_COMPONENTS}-pca-components"
 
 python gmm_sklearn/gmm_pipeline.py \
@@ -26,4 +26,5 @@ python gmm_sklearn/gmm_pipeline.py \
   --covariance_type full diag tied spherical \
   --eps_values 0.3 0.5 0.7 \
   --min_samples_values 5 10 \
-  --cluster_images
+  --cluster_images \
+  --run_supervised
