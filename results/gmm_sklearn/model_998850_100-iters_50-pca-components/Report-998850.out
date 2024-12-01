@@ -1,0 +1,345 @@
+---------------------------------------
+Begin Slurm Prolog: Dec-01-2024 00:03:30
+Job ID:    998850
+User ID:   gcanales6
+Account:   coc
+Job name:  gmm_model
+Partition: coc-gpu
+---------------------------------------
+2024-12-01 00:03:36.906524: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-12-01 00:03:36.922202: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:477] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1733029416.940807 2877076 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1733029416.946186 2877076 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-12-01 00:03:36.965416: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 AVX512_FP16 AVX_VNNI AMX_TILE AMX_INT8 AMX_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+/storage/ice1/6/4/gcanales6/CS4641_CarClassification/gmm_sklearn/metrics.py:66: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+  plt.figure(figsize=(14, 14))
+/storage/ice1/6/4/gcanales6/CS4641_CarClassification/gmm_sklearn/visualization.py:26: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`). Consider using `matplotlib.pyplot.close()`.
+  plt.figure(figsize=(12, 8))
+PCA reduced data to 50 dimensions
+PCA reduced data to 50 dimensions
+
+Running clustering with k=2 and covariance_type=full...
+  Running Hybrid K-Means + GMM with k=2 and covariance_type=full...
+  Running K-Means for initialization with k=2...
+  Refining with GMM using K-Means initialization and covariance_type=full...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.16
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k2_full/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=2: 0.0495
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=3 and covariance_type=full...
+  Running Hybrid K-Means + GMM with k=3 and covariance_type=full...
+  Running K-Means for initialization with k=3...
+  Refining with GMM using K-Means initialization and covariance_type=full...
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.14
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k3_full/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=3: 0.0400
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=5 and covariance_type=full...
+  Running Hybrid K-Means + GMM with k=5 and covariance_type=full...
+  Running K-Means for initialization with k=5...
+  Refining with GMM using K-Means initialization and covariance_type=full...
+Accuracy: 0.05
+Precision: 0.01
+Recall: 0.05
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.12
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k5_full/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=5: 0.0010
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=7 and covariance_type=full...
+  Running Hybrid K-Means + GMM with k=7 and covariance_type=full...
+  Running K-Means for initialization with k=7...
+  Refining with GMM using K-Means initialization and covariance_type=full...
+Accuracy: 0.03
+Precision: 0.01
+Recall: 0.03
+F1 Score: 0.01
+Fowlkes-Mallows Score: 0.11
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k7_full/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=7: -0.0182
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=10 and covariance_type=full...
+  Running Hybrid K-Means + GMM with k=10 and covariance_type=full...
+  Running K-Means for initialization with k=10...
+  Refining with GMM using K-Means initialization and covariance_type=full...
+Accuracy: 0.06
+Precision: 0.02
+Recall: 0.06
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k10_full/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=10: -0.0228
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=15 and covariance_type=full...
+  Running Hybrid K-Means + GMM with k=15 and covariance_type=full...
+  Running K-Means for initialization with k=15...
+  Refining with GMM using K-Means initialization and covariance_type=full...
+Accuracy: 0.03
+Precision: 0.02
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k15_full/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=15: -0.0878
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=2 and covariance_type=diag...
+  Running Hybrid K-Means + GMM with k=2 and covariance_type=diag...
+  Running K-Means for initialization with k=2...
+  Refining with GMM using K-Means initialization and covariance_type=diag...
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.16
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k2_diag/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=2: 0.0713
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=3 and covariance_type=diag...
+  Running Hybrid K-Means + GMM with k=3 and covariance_type=diag...
+  Running K-Means for initialization with k=3...
+  Refining with GMM using K-Means initialization and covariance_type=diag...
+Accuracy: 0.01
+Precision: 0.00
+Recall: 0.01
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.14
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k3_diag/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=3: 0.0155
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=5 and covariance_type=diag...
+  Running Hybrid K-Means + GMM with k=5 and covariance_type=diag...
+  Running K-Means for initialization with k=5...
+  Refining with GMM using K-Means initialization and covariance_type=diag...
+Accuracy: 0.04
+Precision: 0.01
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.12
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k5_diag/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=5: -0.0061
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=7 and covariance_type=diag...
+  Running Hybrid K-Means + GMM with k=7 and covariance_type=diag...
+  Running K-Means for initialization with k=7...
+  Refining with GMM using K-Means initialization and covariance_type=diag...
+Accuracy: 0.03
+Precision: 0.02
+Recall: 0.03
+F1 Score: 0.01
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k7_diag/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=7: 0.0387
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=10 and covariance_type=diag...
+  Running Hybrid K-Means + GMM with k=10 and covariance_type=diag...
+  Running K-Means for initialization with k=10...
+  Refining with GMM using K-Means initialization and covariance_type=diag...
+Accuracy: 0.03
+Precision: 0.03
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.08
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k10_diag/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=10: 0.0162
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=15 and covariance_type=diag...
+  Running Hybrid K-Means + GMM with k=15 and covariance_type=diag...
+  Running K-Means for initialization with k=15...
+  Refining with GMM using K-Means initialization and covariance_type=diag...
+Accuracy: 0.03
+Precision: 0.03
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.07
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k15_diag/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=15: 0.0098
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=2 and covariance_type=tied...
+  Running Hybrid K-Means + GMM with k=2 and covariance_type=tied...
+  Running K-Means for initialization with k=2...
+  Refining with GMM using K-Means initialization and covariance_type=tied...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.17
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k2_tied/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=2: 0.1208
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=3 and covariance_type=tied...
+  Running Hybrid K-Means + GMM with k=3 and covariance_type=tied...
+  Running K-Means for initialization with k=3...
+  Refining with GMM using K-Means initialization and covariance_type=tied...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.14
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k3_tied/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=3: 0.0839
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=5 and covariance_type=tied...
+  Running Hybrid K-Means + GMM with k=5 and covariance_type=tied...
+  Running K-Means for initialization with k=5...
+  Refining with GMM using K-Means initialization and covariance_type=tied...
+Accuracy: 0.03
+Precision: 0.01
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.11
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k5_tied/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=5: 0.0786
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=7 and covariance_type=tied...
+  Running Hybrid K-Means + GMM with k=7 and covariance_type=tied...
+  Running K-Means for initialization with k=7...
+  Refining with GMM using K-Means initialization and covariance_type=tied...
+Accuracy: 0.02
+Precision: 0.01
+Recall: 0.02
+F1 Score: 0.01
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k7_tied/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=7: 0.0634
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=10 and covariance_type=tied...
+  Running Hybrid K-Means + GMM with k=10 and covariance_type=tied...
+  Running K-Means for initialization with k=10...
+  Refining with GMM using K-Means initialization and covariance_type=tied...
+Accuracy: 0.03
+Precision: 0.02
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.08
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k10_tied/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=10: 0.0536
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=15 and covariance_type=tied...
+  Running Hybrid K-Means + GMM with k=15 and covariance_type=tied...
+  Running K-Means for initialization with k=15...
+  Refining with GMM using K-Means initialization and covariance_type=tied...
+Accuracy: 0.03
+Precision: 0.04
+Recall: 0.03
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.07
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k15_tied/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=15: 0.0387
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=2 and covariance_type=spherical...
+  Running Hybrid K-Means + GMM with k=2 and covariance_type=spherical...
+  Running K-Means for initialization with k=2...
+  Refining with GMM using K-Means initialization and covariance_type=spherical...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.15
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k2_spherical/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=2: 0.1185
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=3 and covariance_type=spherical...
+  Running Hybrid K-Means + GMM with k=3 and covariance_type=spherical...
+  Running K-Means for initialization with k=3...
+  Refining with GMM using K-Means initialization and covariance_type=spherical...
+Accuracy: 0.02
+Precision: 0.00
+Recall: 0.02
+F1 Score: 0.00
+Fowlkes-Mallows Score: 0.13
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k3_spherical/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=3: 0.1209
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=5 and covariance_type=spherical...
+  Running Hybrid K-Means + GMM with k=5 and covariance_type=spherical...
+  Running K-Means for initialization with k=5...
+  Refining with GMM using K-Means initialization and covariance_type=spherical...
+Accuracy: 0.04
+Precision: 0.01
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.10
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k5_spherical/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=5: 0.0874
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=7 and covariance_type=spherical...
+  Running Hybrid K-Means + GMM with k=7 and covariance_type=spherical...
+  Running K-Means for initialization with k=7...
+  Refining with GMM using K-Means initialization and covariance_type=spherical...
+Accuracy: 0.03
+Precision: 0.01
+Recall: 0.03
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.09
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k7_spherical/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=7: 0.0900
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=10 and covariance_type=spherical...
+  Running Hybrid K-Means + GMM with k=10 and covariance_type=spherical...
+  Running K-Means for initialization with k=10...
+  Refining with GMM using K-Means initialization and covariance_type=spherical...
+Accuracy: 0.04
+Precision: 0.02
+Recall: 0.04
+F1 Score: 0.02
+Fowlkes-Mallows Score: 0.08
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k10_spherical/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=10: 0.0776
+Using t-SNE with perplexity=30 and sample size=100
+
+Running clustering with k=15 and covariance_type=spherical...
+  Running Hybrid K-Means + GMM with k=15 and covariance_type=spherical...
+  Running K-Means for initialization with k=15...
+  Refining with GMM using K-Means initialization and covariance_type=spherical...
+Accuracy: 0.03
+Precision: 0.04
+Recall: 0.03
+F1 Score: 0.03
+Fowlkes-Mallows Score: 0.06
+Confusion matrix heatmap saved to results/gmm_sklearn/model_998850_100-iters_50-pca-components/hybrid_k15_spherical/confusion_matrix.png
+Silhouette Score for Hybrid K-Means + GMM with k=15: 0.0613
+Using t-SNE with perplexity=30 and sample size=100
+---------------------------------------
+Begin Slurm Epilog: Dec-01-2024 00:10:34
+Job ID:        998850
+Array Job ID:  _4294967294
+User ID:       gcanales6
+Account:       coc
+Job name:      gmm_model
+Resources:     cpu=1,mem=32G,node=1
+Rsrc Used:     cput=00:07:08,vmem=0,walltime=00:07:08,mem=22829928K,energy_used=0
+Partition:     coc-gpu
+Nodes:         atl1-1-03-004-25-0
+---------------------------------------
