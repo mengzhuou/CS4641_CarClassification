@@ -1,1 +1,0 @@
-K=15, Fowlkes-Mallows Score: 0.2123
