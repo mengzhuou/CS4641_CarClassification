@@ -6,13 +6,67 @@
       - `BMW/`: few samples of BMW car test images
   - `new_train/`: train data (same sub-dir structure as above)
   - `validation/`: validation data (same sub-dir structure as above)
-- `models/model_32accuracy_917372`: contains weights and architecture of our best model (outputted and consumable by tf)
-- `results/`:
-    - `model_32accuracy_917372/`: contains evaluation metrics (e.g. confusion matrix, classification report on f1-score and other metrics, slurm report) for our best run
-    - `model_#/`: metrics recorded from our other model experiments. More info regarding each run in our report
 - `DataCleaning.py`: provides a data cleaning pipeline for our ML car model train and test dataset, includes functions to delete folders with 30 or fewer images, resize images to a consistent size with padding, and check for non-JPEG images, ensuring all files meet format requirements.
 - `DataSplitting.py`: Condenses cleaned data from car models to car brands (ex. BMW X5/, BMW X6/ -> BMW/), and splits these reduced classes into train, validation, and test splits (80-10-10)
-- `requirements.txt`: Necessary pip modules to install in python environment
-- `resnet_exp.py`: Main pipeline file that loads images into Tensorflow Datasets, and instantiates + trains + saves + evaluates Resnet model. Allows for configs like # epochs or file paths to be set via Argument Parsing flags when running the file.
-- `resnetmodel.py`: Contains Residual block class (inherits from tf's Layer class) and ResNet Model class (inherits from tf's Model class) with our architecture implementation. Instantiated in **resnet_exp.py** .
-- `train_model_tf_mod`: SBATCH script to submit GPU-accelerated tensorflow jobs to pace/ice cluster. Loads necessary modules, python environment, and runs **resnet_exp.py** with tunable flags. 
+- `CNN/`: directory containing all files for CNN implementation
+  - `models/model_32accuracy_917372`: contains weights and architecture of our best model (outputted and consumable by tf)
+  - `results/`:
+      - `model_32accuracy_917372/`: contains evaluation metrics (e.g. confusion matrix, classification report on f1-score and other metrics, slurm report) for our best run
+      - `model_#/`: metrics recorded from our other model experiments. More info regarding each run in our report
+  - `requirements.txt`: Necessary pip modules to install in python environment
+  - `resnet_exp.py`: Main pipeline file that loads images into Tensorflow Datasets, and instantiates + trains + saves + evaluates Resnet model. Allows for configs like # epochs or file paths to be set via Argument Parsing flags when running the file.
+  - `resnetmodel.py`: Contains Residual block class (inherits from tf's Layer class) and ResNet Model class (inherits from tf's Model class) with our architecture implementation. Instantiated in **resnet_exp.py** .
+  - `train_model_tf_mod`: SBATCH script to submit GPU-accelerated tensorflow jobs to pace/ice cluster. Loads necessary modules, python environment, and runs **resnet_exp.py** with tunable flags. 
+  - `analyzing_training`: Parses training logs from text file ending with .out, extracts relevant metrics (loss and accuracy), and generates plots to visualize the training and validation performance of a machine learning model.
+- `GMM/`: directory containing all files for GMM implementation
+  - `Approach 1-GMM vs K-Means/`: contains files and results for running GMM vs K-Means
+    - `gmm_sklearn/`: files used to run the GMM pipeline for this specific approach
+      - `data_loader.py`: Python file that loads the dataset, applying PCA and normalizing the images
+      - `gmm_pipeline.py`: Python file that builds, trains, and evaluates the models used in this apporach
+      - `metrics.py`: Python file that processes the results to create respective classification report and confusion matrix, also maps clusters to labels
+      - `visualization.py`: Python file that uses t-SNE to create 2D plots for clustering visualization
+    - `results/`: contains results of using this approach
+      - `model_997376_100-iters_150-pca-components/`:
+        - `gmm_k#_[covariance-type]/`: (`gmm_k2_diag` means GMM with K=2 and diagonal covariance) contains the result files output by `metrics.py` and `visualization.py`. Each directory contains those result files (confusion matrix, classification report on f1-score and other metrics, cluster visualization, and in some cases sample images of the clustering performed)
+        - `kmeans_k#/`: (`kmeans_k15` means K-Means with K=15) contains the result files output by `metrics.py` and `visualization.py`. Each directory contains those result files (confusion matrix, classification report on f1-score and other metrics, cluster visualization, and in some cases sample images of the clustering performed)
+        - `Report-997376.out`: slurm job report for this specific approach
+    - `train_gmm_sklearn`: SBATCH script used to submit jobs with this apporach to PACE/ICE clusters
+  - `Approach 2-DB-Scan and Spectral Clustering/`: contains files and results for running GMM with DB-Scan and Spectral Clustering
+      - `gmm_sklearn/`: files used to run the GMM pipeline for this specific approach
+      - `data_loader.py`: Python file that loads the dataset, applying PCA and normalizing the images
+      - `gmm_pipeline.py`: Python file that builds, trains, and evaluates the models used in this apporach
+      - `metrics.py`: Python file that processes the results to create respective classification report and confusion matrix, also maps clusters to labels
+      - `visualization.py`: Python file that uses t-SNE to create 2D plots for clustering visualization
+    - `results/`: contains results of using this approach
+      - `model_998281_100-iters_50-pca-components/`:
+        - `dbscan_eps#_min#/`: (`dbscan_eps0.3_min5` means DB-Scan with epsilon=0.3 and minimum of 5 points required in a neighborhood) contains the result files output by `metrics.py` and `visualization.py`. Each directory contains those result files (confusion matrix, classification report on f1-score and other metrics, cluster visualization) 
+        - `gmm_k#_[covariance-type]/`: (`gmm_k2_diag` means GMM with K=2 and diagonal covariance) contains the result files output by `metrics.py` and `visualization.py`. Each directory contains those result files (confusion matrix, classification report on f1-score and other metrics, cluster visualization, and in some cases sample images of the clustering performed)
+        - `kmeans_k#/`: (`kmeans_k15` means K-Means with K=15) contains the result files output by `metrics.py` and `visualization.py`. Each directory contains those result files (confusion matrix, classification report on f1-score and other metrics, cluster visualization, and in some cases sample images of the clustering performed)
+        - `spectral_k#/`: (`spectral_k7` means spectral clustering with k=7 clusters) contains the result files output by `metrics.py` and `visualization.py`. Each directory contains those result files (confusion matrix, classification report on f1-score and other metrics, cluster visualization, and in some cases sample images of the clustering performed)
+        - `Report-998281.out`: slurm job report for this specific approach
+    - `train_gmm_sklearn`: SBATCH script used to submit jobs with this apporach to PACE/ICE clusters
+  - `Approach 3-Hybrid K-Means + GMM/`: contains files and results for running GMM using K-Means initialization
+    - `gmm_sklearn/`: files used to run the GMM pipeline for this specific approach
+      - `data_loader.py`: Python file that loads the dataset, applying PCA and normalizing the images
+      - `gmm_pipeline.py`: Python file that builds, trains, and evaluates the models used in this apporach
+      - `metrics.py`: Python file that processes the results to create respective classification report and confusion matrix, also maps clusters to labels
+      - `visualization.py`: Python file that uses t-SNE to create 2D plots for clustering visualization
+    - `results/`: contains results of using this approach
+      - `model_998850_100-iters_50-pca-components/`:
+        - `hybrid_k#_[covariance-type]/`: (`hybrid_k10_full` means GMM using K-Means initialization, with K=10 and full covariance) contains the result files output by `metrics.py` and `visualization.py`. Each directory contains those result files (confusion matrix, classification report on f1-score and other metrics, cluster visualization, and in some cases sample images of the clustering performed)
+        - `Report-998850.out`: slurm job report for this specific approach
+    - `train_gmm_sklearn`: SBATCH script used to submit jobs with this apporach to PACE/ICE clusters
+  - `Approach 4-Random Forest & SVM/`: contains files and resutls for running GMM w/K-Means init and Random Forest & SVM
+    - `gmm_sklearn/`: files used to run the GMM pipeline for this specific approach
+      - `data_loader.py`: Python file that loads the dataset, applying PCA and normalizing the images
+      - `gmm_pipeline.py`: Python file that builds, trains, and evaluates the models used in this apporach
+      - `metrics.py`: Python file that processes the results to create respective classification report and confusion matrix, also maps clusters to labels
+      - `visualization.py`: Python file that uses t-SNE to create 2D plots for clustering visualization
+    - `results/`: contains results of using this approach
+      - `model_999191_100-iters_100-pca-components/`:
+        - `hybrid_k#_[covariance-type]/`: (`hybrid_k5_spherical` means GMM using K-Means initialization, with K=5 and spherical covariance) contains the result files output by `metrics.py` and `visualization.py`. Each directory contains those result files (confusion matrix, classification report on f1-score and other metrics, cluster visualization, and in some cases sample images of the clustering performed)
+        - `supervised_learning/`:
+          - `random_forest/`: contains the result files output by `metrics.py` and `visualization.py`, such as confusion matrix and classification report on f1-score and other metrics
+          - `svm/`: contains the result files output by `metrics.py` and `visualization.py`, such as confusion matrix and classification report on f1-score and other metrics
+        - `Report-999191.out`: slurm job report for this specific approach
+    - `train_gmm_sklearn`: SBATCH script used to submit jobs with this apporach to PACE/ICE clusters
