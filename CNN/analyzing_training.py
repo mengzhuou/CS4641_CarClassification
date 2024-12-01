@@ -59,7 +59,7 @@ def main(args):
 
     # Ensure the output path exists
     output_path = os.path.dirname(args.results_path)
-    file_name = os.path.basename(args.result_path)
+    file_name = os.path.basename(args.results_path)
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
