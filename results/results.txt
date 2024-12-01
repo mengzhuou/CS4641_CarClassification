@@ -19,4 +19,6 @@ branch: nicole-gmm-kmeans-init
 998850 - PUSHED <<<< same code used to run 997376, by using kmeans centroids to initialize the gmm model, attempt 2 >>>> PUSHED
 
 branch: nicole-gmm-rand-for-svm
-999110: PUSHED <<<< same code used to run 997376, gmm w/kmeans init + random forest and svm >>>> PUSHED
+999110: DELETED -- same code used to run 997376, gmm w/kmeans init + random forest and svm
+999191: PUSHED <<<< same code used to run 997376, gmm w/kmeans init + random forest and svm >>>> PUSHED
+999641: "" "" + 50 PCA components (instead of 100)
