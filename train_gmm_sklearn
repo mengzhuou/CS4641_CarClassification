@@ -3,8 +3,6 @@
 #SBATCH --gres=gpu:1
 #SBATCH --mem-per-gpu=32G
 #SBATCH -t2:00:00
-#SBATCH --partition=coc-gpu
-#SBATCH --nodelist=atl1-1-01-005-17-0,atl1-1-01-005-19-0
 #SBATCH -oReport-%j.out
 #SBATCH --mail-type=BEGIN,END,FAIL
 #SBATCH --mail-user=gcanales6@gatech.edu
@@ -26,6 +24,6 @@ python gmm_sklearn/gmm_pipeline.py \
   --max_iters $MAX_ITERS \
   --pca_components $PCA_COMPONENTS \
   --covariance_type full diag tied spherical \
-  --eps_values 0.3 0.5 0.7 \
-  --min_samples_values 5 10 \
+  --eps_values 0.1 0.3 0.5 0.7 1.0 \
+  --min_samples_values 3 5 10 \
   --cluster_images

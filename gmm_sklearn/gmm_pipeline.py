@@ -1,4 +1,5 @@
 import os
+import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
 from sklearn.cluster import SpectralClustering
@@ -56,6 +57,12 @@ def calculate_silhouette_score(data, labels, method_name, k):
     """
     Calculate and print the silhouette score for clustering.
     """
+    # Check if only one cluster is present
+    unique_labels = np.unique(labels)
+    if len(unique_labels) <= 1:
+        print(f"Silhouette Score for {method_name} skipped: only one cluster found.")
+        return None
+    
     silhouette_avg = silhouette_score(data, labels)
     print(f"Silhouette Score for {method_name} with k={k}: {silhouette_avg:.4f}")
     return silhouette_avg
@@ -155,8 +162,16 @@ def main(train_dir, test_dir, output_dir, k_values, covariance_types, eps_values
             dbscan_output_dir = os.path.join(output_dir, f"dbscan_eps{eps}_min{min_samples}")
             os.makedirs(dbscan_output_dir, exist_ok=True)
 
+            # Log number of clusters
+            num_clusters = len(np.unique(dbscan_labels))
+            print(f"DBSCAN with eps={eps}, min_samples={min_samples} found {num_clusters} clusters.")
+
+            # Evaluate metrics
             evaluate_metrics(test_labels, dbscan_labels, class_names, dbscan_output_dir)
+            # Calculate silhouette score (skip if only one cluster)
             calculate_silhouette_score(test_data, dbscan_labels, method_name="DBSCAN", k=None)
+
+            # Visualize clusters if enabled
             if cluster_images:
                 visualize_clusters(test_data, test_labels, dbscan_labels, dbscan_output_dir)
 
