@@ -30,7 +30,7 @@ def parse_training_logs(results_path):
 
     return history
 
-def plot_accuracy(history, output_path):
+def plot_accuracy(history, output_path, file_name):
     """Plot training and validation accuracy."""
     plt.plot(history["train_accuracy"], label="Train Accuracy")
     plt.plot(history["val_accuracy"], label="Validation Accuracy")
@@ -38,10 +38,10 @@ def plot_accuracy(history, output_path):
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
     plt.legend(loc="upper left")
-    plt.savefig(os.path.join(output_path, "accuracy_plot.png"))
+    plt.savefig(os.path.join(output_path, f"{file_name}_accuracy_plot.png"))
     plt.close()
 
-def plot_loss(history, output_path):
+def plot_loss(history, output_path, file_name):
     """Plot training and validation loss."""
     plt.plot(history["train_loss"], label="Train Loss")
     plt.plot(history["val_loss"], label="Validation Loss")
@@ -49,7 +49,7 @@ def plot_loss(history, output_path):
     plt.xlabel("Epoch")
     plt.ylabel("Loss")
     plt.legend(loc="upper left")
-    plt.savefig(os.path.join(output_path, "loss_plot.png"))
+    plt.savefig(os.path.join(output_path, f"{file_name}_loss_plot.png"))
     plt.close()
 
 def main(args):
@@ -59,12 +59,13 @@ def main(args):
 
     # Ensure the output path exists
     output_path = os.path.dirname(args.results_path)
+    file_name = os.path.basename(args.result_path)
     if not os.path.exists(output_path):
         os.makedirs(output_path)
 
     # Generate plots
-    plot_accuracy(history, output_path)
-    plot_loss(history, output_path)
+    plot_accuracy(history, output_path, file_name)
+    plot_loss(history, output_path, file_name)
 
     print(f"Plots saved in {output_path}")
 

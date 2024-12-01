@@ -58,19 +58,19 @@ def load_data(test_dir: str,
     test_ds = test_ds.map(lambda x, y: (x / 255.0, y)).cache().prefetch(tf.data.AUTOTUNE)
     return {"train_ds": train_ds, "test_ds": test_ds, "val_ds":val_ds}
 
-def train_and_save_resnet(path_to_save: str, 
+def train_and_save_vit(path_to_save: str, 
                           train_ds: Dataset,
                           val_ds: Dataset,
                           num_classes: int, 
                           img_height:int = 224,
                           img_width:int = 224,
                           channels: int = 3, 
-                          projection_dim: int = 192,
-                          num_patches: int = 784) -> None:
+                          patch_size: int = 16,
+                          epochs: int = 10) -> None:
         
     inputs = tf.keras.Input(shape=(img_height, img_width, channels))
-    print(f"{projection_dim} and {num_patches}")
-    outputs = VisionTransformer(num_patches, projection_dim, num_classes, dropout_rate=0.1)(inputs)
+    projection_dim = (patch_size ** 2) * 3
+    outputs = VisionTransformer(patch_size, projection_dim, num_classes, dropout_rate=0.1)(inputs)
     model = tf.keras.Model(inputs=inputs, outputs=outputs)  
     
     model.compile(optimizer='adam',
@@ -79,7 +79,7 @@ def train_and_save_resnet(path_to_save: str,
     
     fit_params = {
         'x': train_ds,
-        
+        'epochs': epochs,
         'validation_data': val_ds,
         'verbose': 1
     }
@@ -88,61 +88,64 @@ def train_and_save_resnet(path_to_save: str,
     model.fit(**fit_params)
     model.save(path_to_save)
 
-def evaluate_model(model_path: str, test_ds: Dataset):
+def evaluate_model(model_path: str, output_dir: str, test_ds: Dataset, model_comments: str):
     """ Evaluate model and output results """
     model = tf.keras.models.load_model(model_path)
     y_pred = model.predict(test_ds)
-    print(y_pred)
-    # predicted_indices = np.argmax(y_pred, axis=1)
-    # predicted_labels = [class_names[i] for i in predicted_indices]
+    
+    predicted_indices = np.argmax(y_pred, axis=1)
+    predicted_labels = [class_names[i] for i in predicted_indices]
 
 
     # # grab the true labels from the test Dataset object
-    # true_indices = []
-    # for _, labels in test_ds:
-    #     true_indices.extend(labels.numpy())
-    # true_labels = [class_names[i] for i in true_indices]
+    true_indices = []
+    for _, labels in test_ds:
+        true_indices.extend(labels.numpy())
+    true_labels = [class_names[i] for i in true_indices]
 
-    # # calculate eval metrics
-    # accuracy = accuracy_score(true_labels, predicted_labels)
-    # precision = precision_score(true_labels, predicted_labels, average='weighted')  # avg is weighted by the num of true instances for each label
-    # recall = recall_score(true_labels, predicted_labels, average='weighted')
-    # f1 = f1_score(true_labels, predicted_labels, average='weighted')
+    # calculate eval metrics
+    accuracy = accuracy_score(true_labels, predicted_labels)
+    precision = precision_score(true_labels, predicted_labels, average='weighted')  # avg is weighted by the num of true instances for each label
+    recall = recall_score(true_labels, predicted_labels, average='weighted')
+    f1 = f1_score(true_labels, predicted_labels, average='weighted')
 
-    # # get curr timestamp to append to results name (prevent overwriting)
-    # timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    # get curr timestamp to append to results name (prevent overwriting)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    # # output results
-    # print(f"Accuracy: {accuracy:.2f}")
-    # print(f"Precision: {precision:.2f}")
-    # print(f"Recall: {recall:.2f}")
-    # print(f"F1 Score: {f1:.2f}")
+    # output results
+    print(f"Accuracy: {accuracy:.2f}")
+    print(f"Precision: {precision:.2f}")
+    print(f"Recall: {recall:.2f}")
+    print(f"F1 Score: {f1:.2f}")
 
-    # # create and save classification report
-    # report = classification_report(true_labels, predicted_labels, target_names=class_names)
-    # report_path = os.path.join(output_dir, f'classification_report_{timestamp}.txt')
-    # os.makedirs(os.path.dirname(report_path), exist_ok=True)
-    # with open(report_path, 'w') as f:
-    #     f.write(f"Accuracy: {accuracy:.2f}\n")
-    #     f.write(f"Precision: {precision:.2f}\n")
-    #     f.write(f"Recall: {recall:.2f}\n")
-    #     f.write(f"F1 Score: {f1:.2f}\n\n")
-    #     f.write("Classification Report:\n")
-    #     f.write(report)
-    # print(f"Classification report saved to {report_path}")
+    # create and save classification report
+    report = classification_report(true_labels, predicted_labels, target_names=class_names)
+    report_path = os.path.join(output_dir, f'classification_report_{timestamp}.txt')
+    os.makedirs(os.path.dirname(report_path), exist_ok=True)
+    with open(report_path, 'w') as f:
+        f.write(f"Comments about this model run {model_comments}")
+        f.write(f"Accuracy: {accuracy:.2f}\n")
+        f.write(f"Precision: {precision:.2f}\n")
+        f.write(f"Recall: {recall:.2f}\n")
+        f.write(f"F1 Score: {f1:.2f}\n\n")
+        f.write("Classification Report:\n")
+        f.write(report)
+    print(f"Classification report saved to {report_path}")
 
-    # # plot and save confusion matrix as a heatmap
-    # conf_matrix = confusion_matrix(true_labels, predicted_labels)
-    # plt.figure(figsize=(10, 8))
-    # sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', 
-    #             xticklabels=class_names, yticklabels=class_names)
-    # plt.xlabel('Predicted Label')
-    # plt.ylabel('True Label')
-    # plt.title(f'Confusion Matrix - ResNet Model')
-    # plt_path = os.path.join(output_dir, f'confusion_matrix_{timestamp}.png')
-    # plt.savefig(plt_path)
-    # print(f"Confusion matrix saved to {plt_path}")
-    # plt.show()
+    # plot and save confusion matrix as a heatmap
+    conf_matrix = confusion_matrix(true_labels, predicted_labels)
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', 
+                xticklabels=class_names, yticklabels=class_names)
+    plt.xlabel('Predicted Label')
+    plt.ylabel('True Label')
+    plt.title(f'Confusion Matrix - ResNet Model')
+    plt_path = os.path.join(output_dir, f'confusion_matrix_{timestamp}.png')
+    plt.savefig(plt_path)
+    print(f"Confusion matrix saved to {plt_path}")
+    plt.show()
+
+    
 
 if __name__ == "__main__":
     import argparse
@@ -150,29 +153,45 @@ if __name__ == "__main__":
     # parse arguments
     parser = argparse.ArgumentParser(description='Run VIT model pipeline')
     parser.add_argument('--model_path', type=str, required=True, help='Path to the trained model.')
-    # parser.add_argument('--results_path', type=str, required=True, help='Directory to save evaluation results.')
-    # parser.add_argument('--epochs', type=int, required=False, help='If you want to set epochs')
+    parser.add_argument('--results_path', type=str, required=True, help='Directory to save evaluation results.')
+    parser.add_argument('--epochs', type=int, required=False, help='If you want to set epochs')
+    parser.add_argument('--patch_size', type=int, required=False, help='Set Patch size')
+    parser.add_argument('--model_comments', type=str, required=True, help="add comment on what parameters/changes were made")
     # parser.add_argument('--steps_per_epoch', type=int, required=False, help='If you want to run model faster')
     
     args = parser.parse_args()
 
     # load Dataset objects
-    data = load_data(test_dir = 'Condensed_Dataset/new_test', 
-                     train_dir='Condensed_Dataset/new_train', 
-                     validation_dir='Condensed_Dataset/validation')
+    data = load_data(test_dir = '../Condensed_Dataset/new_test', 
+                     train_dir='../Condensed_Dataset/new_train', 
+                     validation_dir='../Condensed_Dataset/validation')
 
     test_ds = data["test_ds"]
     train_ds = data["train_ds"]
     val_ds = data["val_ds"]
 
-    class_names = os.listdir('Condensed_Dataset/new_test')
+    class_names = os.listdir('../Condensed_Dataset/new_test')
 
-    train_and_save_resnet(path_to_save=args.model_path, 
+    model_params = {
+        "path_to_save": args.model_path,
+        "train_ds": train_ds,
+        "val_ds": val_ds,
+        "num_classes": len(class_names),
+    }
+
+    patch_size = args.patch_size
+    if patch_size is not None:
+        model_params.update({"patch_size": patch_size})
+
+    train_and_save_vit(path_to_save=args.model_path, 
                           train_ds=train_ds, 
                           val_ds=val_ds, 
-                          num_classes=len(class_names))
+                          num_classes=len(class_names),
+                          patch_size=args.patch_size)
     
 
     # evaluate and output results
     evaluate_model(model_path=args.model_path, 
-                   test_ds=test_ds)
+                   test_ds=test_ds,
+                   output_dir="vitresults",
+                   comments=args.model_comments)

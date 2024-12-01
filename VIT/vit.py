@@ -1,20 +1,21 @@
 # ADAPTED FROM 'dzlab' ON GITHUB: https://dzlab.github.io/notebooks/tensorflow/vision/classification/2021/10/01/vision_transformer.html
 
-import numpy as np
-import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras import Model
-from tensorflow.keras.layers import Add, Dense, Dropout, Embedding, GlobalAveragePooling1D, Input, Layer, LayerNormalization, MultiHeadAttention
+from tensorflow.keras.layers import (Add, Dense, Dropout, Embedding, 
+                                     GlobalAveragePooling1D, Layer, 
+                                     LayerNormalization, MultiHeadAttention)
 
 class PatchExtractor(Layer):
-    def __init__(self, **kwargs):
+    def __init__(self, patch_size: int = 16, **kwargs):
         super(PatchExtractor, self).__init__(**kwargs)
+        self.patch_size = patch_size
 
     def call(self, images):
         patches = tf.image.extract_patches(
             images=images,
-            sizes=[1, 8, 8, 1],
-            strides=[1, 8, 8, 1],
+            sizes=[1, self.patch_size, self.patch_size, 1],
+            strides=[1, self.patch_size, self.patch_size, 1],
             rates=[1, 1, 1, 1],
             padding="VALID",
         )
@@ -23,10 +24,10 @@ class PatchExtractor(Layer):
         patches = tf.reshape(patches, [batch_size, -1, patch_dims])
         return patches
 
-class PatchEncoder(Layer):
+class PatchEmbedding(Layer):
     def __init__(self, num_patches:int, 
                  projection_dim:int):
-        super(PatchEncoder, self).__init__()
+        super(PatchEmbedding, self).__init__()
         self.num_patches = num_patches
         self.projection_dim = projection_dim
         w_init = tf.random_normal_initializer()
@@ -45,14 +46,14 @@ class PatchEncoder(Layer):
         # calculate patches embeddings
         patches_embed = self.projection(patch)
         patches_embed = tf.concat([patches_embed, class_token], 1)
-        print(f"patches embedding shape {patches_embed.shape}")
+        
         # calcualte positional embeddings
         positions = tf.range(start=0, limit=self.num_patches+1, delta=1)
         positions_embed = self.position_embedding(positions)
-        print(f"positions embedding shape {positions_embed.shape}")
+   
         positions_embed = tf.expand_dims(positions_embed, axis=0)  # Add batch dimension
         positions_embed = tf.tile(positions_embed, multiples=[batch, 1, 1])  # Tile to match batch size
-        print(f"positions embedding shape {positions_embed.shape}")
+      
         # add both embeddings
         encoded = patches_embed + positions_embed
         return encoded
@@ -111,25 +112,26 @@ class TransformerEncoder(Layer):
         super(TransformerEncoder, self).__init__()
         self.blocks = [Block(projection_dim, num_heads, dropout_rate) for _ in range(num_blocks)]
         self.norm = LayerNormalization(epsilon=1e-6)
-        self.dropout = Dropout(0.5)
+        self.dropout = Dropout(dropout_rate)
 
     def call(self, x):
         # Create a [batch_size, projection_dim] tensor.
         for block in self.blocks:
             x = block(x)
-            x = self.norm(x)
-            y = self.dropout(x)
-        return y
+        x = self.norm(x)
+        x = self.dropout(x)
+        return x
 
 class VisionTransformer(Model):
-    def __init__(self, num_patches:int, 
+    def __init__(self, patch_size:int, 
                  projection_dim:int, 
                  num_classes:int, 
                  dropout_rate:float,
                  **kwargs):
         super(VisionTransformer, self).__init__(**kwargs)
-        self.patch_extraction = PatchExtractor()
-        self.patch_embedding = PatchEncoder(num_patches = num_patches,
+        self.patch_extraction = PatchExtractor(patch_size = patch_size)
+        num_patches = int((224 / patch_size) ** 2)
+        self.patch_embedding = PatchEmbedding(num_patches= num_patches,
                                             projection_dim = projection_dim)
         self.transformer_encoder = TransformerEncoder(projection_dim = projection_dim)
         self.final_pool = GlobalAveragePooling1D()
@@ -143,6 +145,5 @@ class VisionTransformer(Model):
         x = self.mlp(x)
         return x
     
-    # caller
     
 
