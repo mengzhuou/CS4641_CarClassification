@@ -9,7 +9,19 @@ module load tensorflow
 JOB_ID=$SLURM_JOB_ID
 MODEL_PATH="vitmodels/model_$JOB_ID"
 RESULT_PATH="vitresults/model_$JOB_ID"
+DATASET_DIR="Condensed_Dataset"
+IMG_HEIGHT=224
+IMG_WIDTH=224
 
 python -m pip install -r requirements.txt 
-python vit_driver.py --model_path $MODEL_PATH --results_path $RESULT_PATH --epochs 3 --patch_size 16 --model_comments "fixing arch to see if everything works"
+python vit_driver.py \
+  --model_path $MODEL_PATH \
+  --results_path $RESULT_PATH \
+  --epochs 3 \
+  --patch_size 16 \
+  --img_width $IMG_WIDTH \
+  --img_height $IMG_HEIGHT \
+  --dataset_dir $DATASET_DIR \
+  --model_comments "fixing arch to see if everything works"
+
 python ../CNN/analyzing_training.py --results_path ../VIT/Report-$JOB_ID.out

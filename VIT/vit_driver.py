@@ -15,9 +15,9 @@ from typing import Optional
 def load_data(test_dir: str, 
               train_dir: str, 
               validation_dir: str, 
-              batch_size:int = 32,
-              img_height:int = 224,
-              img_width: int = 224) -> dict[str, Dataset]: # train_ds, test_ds, val_ds are keys
+              img_height: int,
+              img_width: int,
+              batch_size: int = 32) -> dict[str, Dataset]: # train_ds, test_ds, val_ds are keys
 
     train_ds = tf.keras.utils.image_dataset_from_directory(
         train_dir,
@@ -62,8 +62,8 @@ def train_and_save_vit(path_to_save: str,
                           train_ds: Dataset,
                           val_ds: Dataset,
                           num_classes: int, 
-                          img_height:int = 224,
-                          img_width:int = 224,
+                          img_height:int,
+                          img_width:int,
                           channels: int = 3, 
                           patch_size: int = 16,
                           epochs: int = 10) -> None:
@@ -156,21 +156,38 @@ if __name__ == "__main__":
     parser.add_argument('--results_path', type=str, required=True, help='Directory to save evaluation results.')
     parser.add_argument('--epochs', type=int, required=False, help='If you want to set epochs')
     parser.add_argument('--patch_size', type=int, required=False, help='Set Patch size')
+    parser.add_argument('--img_height', type=int, required=True, default=224, help='height of dataset objects')
+    parser.add_argument('--img_width', type=int, required=True, default=224, help='width of dataset objects')
+    parser.add_argument('--dataset_dir', type=str, required=True, help='root directory of the dataset')
     parser.add_argument('--model_comments', type=str, required=True, help="add comment on what parameters/changes were made")
+    
     # parser.add_argument('--steps_per_epoch', type=int, required=False, help='If you want to run model faster')
     
     args = parser.parse_args()
 
     # load Dataset objects
-    data = load_data(test_dir = '../Condensed_Dataset/new_test', 
-                     train_dir='../Condensed_Dataset/new_train', 
-                     validation_dir='../Condensed_Dataset/validation')
+    base_dir = os.path.abspath(os.path.join(os.getcwd(), "../"))
+
+    args.dataset_dir = os.path.join(base_dir, args.dataset_dir)
+
+    test_dir = os.path.join(args.dataset_dir, "new_test")
+    train_dir = os.path.join(args.dataset_dir, "new_train")
+    validation_dir = os.path.join(args.dataset_dir, "validation")
+
+    # Load Dataset objects with dynamically set directories and image dimensions
+    data = load_data(
+        test_dir=test_dir,
+        train_dir=train_dir,
+        validation_dir=validation_dir,
+        img_height=args.img_height,
+        img_width=args.img_width
+    )
 
     test_ds = data["test_ds"]
     train_ds = data["train_ds"]
     val_ds = data["val_ds"]
 
-    class_names = os.listdir('../Condensed_Dataset/new_test')
+    class_names = os.listdir(test_dir)
 
     model_params = {
         "path_to_save": args.model_path,
@@ -187,8 +204,10 @@ if __name__ == "__main__":
                           train_ds=train_ds, 
                           val_ds=val_ds, 
                           num_classes=len(class_names),
-                          patch_size=args.patch_size)
-    
+                          patch_size=args.patch_size,
+                          img_height=args.img_height,
+                          img_width=args.img_width
+                          )
 
     # evaluate and output results
     evaluate_model(model_path=args.model_path, 
