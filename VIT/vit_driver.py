@@ -70,7 +70,13 @@ def train_and_save_vit(path_to_save: str,
         
     inputs = tf.keras.Input(shape=(img_height, img_width, channels))
     projection_dim = (patch_size ** 2) * 3
-    outputs = VisionTransformer(patch_size, projection_dim, num_classes, args.img_width, args.img_height, dropout_rate=0.1)(inputs)
+    outputs = VisionTransformer(
+        patch_size=patch_size, projection_dim=projection_dim,
+        num_classes=num_classes,
+        dropout_rate=0.1,
+        img_width=args.img_width,
+        img_height=args.img_height)(inputs)
+    
     model = tf.keras.Model(inputs=inputs, outputs=outputs)  
     
     model.compile(optimizer='adam',
