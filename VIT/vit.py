@@ -108,7 +108,7 @@ class Block(Layer):
         return y
 
 class TransformerEncoder(Layer):
-    def __init__(self, projection_dim, num_heads=4, num_blocks=12, dropout_rate=0.1, image_width = 640, image_height = 424):
+    def __init__(self, projection_dim, num_heads=4, num_blocks=12, dropout_rate=0.1):
         super(TransformerEncoder, self).__init__()
         self.blocks = [Block(projection_dim, num_heads, dropout_rate) for _ in range(num_blocks)]
         self.norm = LayerNormalization(epsilon=1e-6)
@@ -127,15 +127,16 @@ class VisionTransformer(Model):
                  projection_dim:int, 
                  num_classes:int, 
                  dropout_rate:float,
-                 image_width: int = 640,
-                 image_height: int = 424,
+                 img_width:int,
+                 img_height:int,
                  **kwargs):
         super(VisionTransformer, self).__init__(**kwargs)
         self.patch_extraction = PatchExtractor(patch_size = patch_size)
-        if image_width == 224:
-            num_patches = int((image_width / patch_size) ** 2)
-        else:
-            num_patches = (image_height // patch_size) * (image_width // patch_size)
+
+        if img_height % patch_size != 0 or img_width % patch_size != 0:
+            raise ValueError(f"Image ({img_height}, {img_width}) needs to be divisible by patch size {patch_size}.")
+
+        num_patches = (img_height // patch_size) * (img_width // patch_size)
 
         self.patch_embedding = PatchEmbedding(num_patches= num_patches,
                                             projection_dim = projection_dim)
