@@ -1,7 +1,7 @@
 # ADAPTED FROM 'dzlab' ON GITHUB: https://dzlab.github.io/notebooks/tensorflow/vision/classification/2021/10/01/vision_transformer.html
 
 import tensorflow as tf
-from tensorflow.keras import Model
+from tensorflow.keras import Model, Sequential
 from tensorflow.keras.layers import (Add, Dense, Dropout, Embedding, 
                                      GlobalAveragePooling1D, Layer, 
                                      LayerNormalization, MultiHeadAttention)
@@ -60,22 +60,24 @@ class PatchEmbedding(Layer):
 
 
 class MLP(Layer):
-    def __init__(self, hidden_features, out_features, dropout_rate=0.1):
+    def __init__(self, hidden_features, out_features, dropout_rate=0.1, activation = tf.nn.gelu):
         super(MLP, self).__init__()
         self.hidden_features = hidden_features
         self.out_features = out_features
         self.dropout_rate = dropout_rate
+        self.activation = activation
 
     def build(self, input_shape):
-        self.dense1 = Dense(self.hidden_features, activation=tf.nn.gelu)
+        self.dense1 = Dense(self.hidden_features, activation=self.activation)
         self.dense2 = Dense(self.out_features)
-        self.dropout = Dropout(self.dropout_rate)
+        self.dropout1 = Dropout(self.dropout_rate)
+        self.dropout2 = Dropout(self.dropout_rate)
 
     def call(self, x):
         x = self.dense1(x)
-        x = self.dropout(x)
+        x = self.dropout1(x)
         x = self.dense2(x)
-        y = self.dropout(x)
+        y = self.dropout2(x)
         return y
 
 class Block(Layer):
@@ -93,19 +95,18 @@ class Block(Layer):
         self.mlp = MLP(self.projection_dim * 2, self.projection_dim, self.dropout_rate)
 
     def call(self, x):
-        # Layer normalization 1.
-        x1 = self.norm1(x) # encoded_patches
-        # Create a multi-head attention layer.
+        # layer norm 1
+        x1 = self.norm1(x) 
+        # attn 
         attention_output = self.attn(x1, x1)
-        # Skip connection 1.
-        x2 = Add()([attention_output, x]) #encoded_patches
-        # Layer normalization 2.
-        x3 = self.norm2(x2)
+        # skip 1.
+        attn = attention_output + x  #encoded_patches
+        # layer norm 2
+        x3 = self.norm2(attn)
         # MLP.
-        x3 = self.mlp(x3)
-        # Skip connection 2.
-        y = Add()([x3, x2])
-        return y
+        mlp = self.mlp(x3)
+        # skip 2
+        return attn + mlp
 
 class TransformerEncoder(Layer):
     def __init__(self, projection_dim, num_heads=4, num_blocks=12, dropout_rate=0.1):
@@ -129,16 +130,29 @@ class VisionTransformer(Model):
                  dropout_rate:float,
                  **kwargs):
         super(VisionTransformer, self).__init__(**kwargs)
+        self.init_data_augmentation = Sequential([
+            tf.keras.layers.RandomFlip("horizontal"),
+            tf.keras.layers.RandomRotation(0.1),
+            tf.keras.layers.RandomZoom(0.1),
+            # brightness/contrast
+            tf.keras.layers.RandomContrast(0.2),
+            tf.keras.layers.RandomBrightness(factor=0.2), 
+            # crop smaller than original size
+            tf.keras.layers.RandomCrop(200, 200),
+            tf.keras.layers.Resizing(224, 224), 
+            tf.keras.layers.GaussianNoise(0.1) 
+        ])
         self.patch_extraction = PatchExtractor(patch_size = patch_size)
         num_patches = int((224 / patch_size) ** 2)
         self.patch_embedding = PatchEmbedding(num_patches= num_patches,
                                             projection_dim = projection_dim)
         self.transformer_encoder = TransformerEncoder(projection_dim = projection_dim)
         self.final_pool = GlobalAveragePooling1D()
-        self.mlp = MLP(hidden_features=projection_dim, out_features=num_classes, dropout_rate=dropout_rate)
+        self.mlp = MLP(hidden_features=projection_dim, out_features=num_classes, dropout_rate=dropout_rate, activation=tf.nn.tanh)
 
     def call(self, inputs):
-        x = self.patch_extraction(inputs)
+        x = self.init_data_augmentation(inputs)
+        x = self.patch_extraction(x)
         x = self.patch_embedding(x)
         x = self.transformer_encoder(x)
         x = self.final_pool(x)

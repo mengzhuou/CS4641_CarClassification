@@ -85,6 +85,8 @@ def train_and_save_vit(path_to_save: str,
     }
 
     
+
+    
     model.fit(**fit_params)
     model.save(path_to_save)
 
@@ -139,7 +141,7 @@ def evaluate_model(model_path: str, output_dir: str, test_ds: Dataset, model_com
                 xticklabels=class_names, yticklabels=class_names)
     plt.xlabel('Predicted Label')
     plt.ylabel('True Label')
-    plt.title(f'Confusion Matrix - ResNet Model')
+    plt.title(f'Confusion Matrix - VIT Model')
     plt_path = os.path.join(output_dir, f'confusion_matrix_{timestamp}.png')
     plt.savefig(plt_path)
     print(f"Confusion matrix saved to {plt_path}")
@@ -183,6 +185,10 @@ if __name__ == "__main__":
     if patch_size is not None:
         model_params.update({"patch_size": patch_size})
 
+    epochs = args.epochs
+    if epochs is not None:
+        model_params.update({"epochs": epochs})
+
     train_and_save_vit(path_to_save=args.model_path, 
                           train_ds=train_ds, 
                           val_ds=val_ds, 
@@ -193,5 +199,5 @@ if __name__ == "__main__":
     # evaluate and output results
     evaluate_model(model_path=args.model_path, 
                    test_ds=test_ds,
-                   output_dir="vitresults",
-                   comments=args.model_comments)
+                   output_dir=args.results_path,
+                   model_comments=args.model_comments)
