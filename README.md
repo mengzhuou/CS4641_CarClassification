@@ -70,3 +70,10 @@
           - `svm/`: contains the result files output by `metrics.py` and `visualization.py`, such as confusion matrix and classification report on f1-score and other metrics
         - `Report-999191.out`: slurm job report for this specific approach
     - `train_gmm_sklearn`: SBATCH script used to submit jobs with this apporach to PACE/ICE clusters
+- `VIT/`: Vision Transformer model files
+  - `vitresults/`
+    - `model_#/`: contains slurm reports, accuracy/loss graphs, and metrics from various model runs
+  - `vitmodels/`: contains the actual model weights/architectures stored and loaded by TF
+  - `vit_driver`: script to load data, build, train, and evaluate VIT model
+  - `vit.py`: contains VIT model architecture 
+  - `train_vit` & `train_vit2`: batch scripts to submit jobs to slurm
