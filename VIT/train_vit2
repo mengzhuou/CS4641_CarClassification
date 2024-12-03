@@ -1,0 +1,29 @@
+#!/bin/bash
+#SBATCH -Jgpuexample
+#SBATCH -N1 --gres=gpu:1                       # Number of nodes and GPUs required
+#SBATCH --mem-per-gpu=80G                           # Memory per gpu
+#SBATCH -t8:00:00                                        # Duration of the job (Ex: 15 mins)
+#SBATCH -oReport-%j.out                             # Combined output and error messages file
+
+# 640 x 424 with Condensed_Dataset2
+
+module load tensorflow
+JOB_ID=$SLURM_JOB_ID
+MODEL_PATH="vitmodels/model_$JOB_ID"
+RESULT_PATH="vitresults/model_$JOB_ID"
+DATASET_DIR="Condensed_Dataset_2"
+IMG_HEIGHT=320
+IMG_WIDTH=208
+
+python -m pip install -r requirements.txt 
+python vit_driver.py \
+  --model_path $MODEL_PATH \
+  --results_path $RESULT_PATH \
+  --epochs 10 \
+  --patch_size 16 \
+  --img_width $IMG_WIDTH \
+  --img_height $IMG_HEIGHT \
+  --dataset_dir $DATASET_DIR \
+  --model_comments "fixing arch to see if everything works"
+
+python ../CNN/analyzing_training.py --results_path ../VIT/Report-$JOB_ID.out
