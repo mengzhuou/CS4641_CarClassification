@@ -7,7 +7,7 @@
   - `new_train/`: train data (same sub-dir structure as above)
   - `validation/`: validation data (same sub-dir structure as above)
 - `DataCleaning.py`: provides a data cleaning pipeline for our ML car model train and test dataset, includes functions to delete folders with 30 or fewer images, resize images to a consistent size with padding, and check for non-JPEG images, ensuring all files meet format requirements.
-- `DataSplitting.py`: Condenses cleaned data from car models to car brands (ex. BMW X5/, BMW X6/ -> BMW/), and splits these reduced classes into train, validation, and test splits (80-10-10)
+- `DataSplitting_Resizing.py`: Condenses cleaned data from car models to car brands (ex. BMW X5/, BMW X6/ -> BMW/), and splits these reduced classes into train, validation, and test splits (80-10-10). Also takes care of resizing images to reduce white borders. 
 - `CNN/`: directory containing all files for CNN implementation
   - `models/model_32accuracy_917372`: contains weights and architecture of our best model (outputted and consumable by tf)
   - `results/`:
