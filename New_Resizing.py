@@ -407,3 +407,44 @@ def split_dataset(merged_root, split_root, train_ratio=0.8, test_ratio=0.1, val_
 
 split_dataset(merged_root, split_root, train_ratio=0.8, test_ratio=0.1, val_ratio=0.1)
 
+
+from PIL import Image
+import os
+
+def scale_images(dataset_path: str, scaling_factor: float, splits: list[str] = ["new_test", "new_train", "validation"]) -> None:
+    for split in splits:
+        split_dir = os.path.join(dataset_path, split)
+        
+        if not os.path.isdir(split_dir):
+            print(f"Directory {split_dir} does not exist. Skipping.")
+            continue
+        
+        for class_name in os.listdir(split_dir):
+            class_dir = os.path.join(split_dir, class_name)
+            
+            if not os.path.isdir(class_dir):
+                print(f"{class_dir} is not a directory. Skipping.")
+                continue
+            
+            for image_file in os.listdir(class_dir):
+                img_path = os.path.join(class_dir, image_file)
+
+                try:
+                    with Image.open(img_path) as img:
+                        new_width = int(img.width * scaling_factor)
+                        new_height = int(img.height * scaling_factor)
+                        
+                        if img.size == (640 * scaling_factor, 424 * scaling_factor):
+                            continue
+
+                        resized_img = img.resize((new_width, new_height), Image.Resampling.LANCZOS)
+                        resized_img.save(img_path)
+                except Exception as e:
+                    print(f"Error processing {img_path}: {e}")
+                    return
+
+current_dir = os.getcwd()
+condensed_dataset2 = os.path.join(current_dir, "Condensed_Dataset_2")
+scaling_factor = 0.5
+
+scale_images(condensed_dataset2, scaling_factor)
