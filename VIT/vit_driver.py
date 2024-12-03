@@ -107,7 +107,6 @@ def train_and_save_vit(path_to_save: str,
         'class_weight':class_weights
     }
 
-    
     model.fit(**fit_params)
     model.save(path_to_save)
 
@@ -228,6 +227,10 @@ if __name__ == "__main__":
     if patch_size is not None:
         model_params.update({"patch_size": patch_size})
 
+    epochs = args.epochs
+    if epochs is not None:
+        model_params.update({"epochs": epochs})
+
     train_and_save_vit(path_to_save=args.model_path, 
                           train_ds=train_ds, 
                           val_ds=val_ds, 
@@ -242,5 +245,5 @@ if __name__ == "__main__":
     # evaluate and output results
     evaluate_model(model_path=args.model_path, 
                    test_ds=test_ds,
-                   output_dir="vitresults",
+                   output_dir=args.results_path,
                    model_comments=args.model_comments)
