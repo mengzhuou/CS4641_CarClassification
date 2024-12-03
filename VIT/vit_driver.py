@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import os
 from datetime import datetime
 from typing import Optional
-
+from sklearn.utils.class_weight import compute_class_weight
 
 def load_data(test_dir: str, 
               train_dir: str, 
@@ -44,7 +44,6 @@ def load_data(test_dir: str,
 
     val_ds = val_ds.map(lambda x, y: (x / 255.0, y)).cache().prefetch(tf.data.AUTOTUNE)
 
-
     test_ds = tf.keras.utils.image_dataset_from_directory(
         test_dir,
         labels="inferred",
@@ -58,12 +57,29 @@ def load_data(test_dir: str,
     test_ds = test_ds.map(lambda x, y: (x / 255.0, y)).cache().prefetch(tf.data.AUTOTUNE)
     return {"train_ds": train_ds, "test_ds": test_ds, "val_ds":val_ds}
 
+def compute_class_weights(train_ds):
+    all_labels = []
+    for _, labels in train_ds:
+        all_labels.extend(labels.numpy())
+
+    all_labels = np.array(all_labels)
+
+    num_classes = np.unique(all_labels)
+    class_weights = compute_class_weight(
+        class_weight='balanced',
+        classes=num_classes,
+        y=all_labels
+    )
+
+    return dict(zip(num_classes, class_weights))
+
 def train_and_save_vit(path_to_save: str, 
                           train_ds: Dataset,
                           val_ds: Dataset,
                           num_classes: int, 
                           img_height:int,
                           img_width:int,
+                          class_weights: dict,
                           channels: int = 3, 
                           patch_size: int = 16,
                           epochs: int = 10) -> None:
@@ -87,7 +103,8 @@ def train_and_save_vit(path_to_save: str,
         'x': train_ds,
         'epochs': epochs,
         'validation_data': val_ds,
-        'verbose': 1
+        'verbose': 1,
+        'class_weight':class_weights
     }
 
     
@@ -145,13 +162,12 @@ def evaluate_model(model_path: str, output_dir: str, test_ds: Dataset, model_com
                 xticklabels=class_names, yticklabels=class_names)
     plt.xlabel('Predicted Label')
     plt.ylabel('True Label')
-    plt.title(f'Confusion Matrix - ResNet Model')
+    plt.title(f'Confusion Matrix - VIT Model')
     plt_path = os.path.join(output_dir, f'confusion_matrix_{timestamp}.png')
     plt.savefig(plt_path)
     print(f"Confusion matrix saved to {plt_path}")
     plt.show()
 
-    
 
 if __name__ == "__main__":
     import argparse
@@ -193,6 +209,8 @@ if __name__ == "__main__":
     train_ds = data["train_ds"]
     val_ds = data["val_ds"]
 
+    class_weights = compute_class_weights(train_ds)
+
     class_names = os.listdir(test_dir)
 
     model_params = {
@@ -200,7 +218,11 @@ if __name__ == "__main__":
         "train_ds": train_ds,
         "val_ds": val_ds,
         "num_classes": len(class_names),
-    }
+    }    
+    
+    epochs = args.epochs
+    if epochs is not None:
+        model_params.update({"epoch": epochs})
 
     patch_size = args.patch_size
     if patch_size is not None:
@@ -212,11 +234,13 @@ if __name__ == "__main__":
                           num_classes=len(class_names),
                           patch_size=args.patch_size,
                           img_height=args.img_height,
-                          img_width=args.img_width
+                          img_width=args.img_width,
+                          class_weights=class_weights,
+                          epochs=args.epochs
                           )
 
     # evaluate and output results
     evaluate_model(model_path=args.model_path, 
                    test_ds=test_ds,
                    output_dir="vitresults",
-                   comments=args.model_comments)
+                   model_comments=args.model_comments)
