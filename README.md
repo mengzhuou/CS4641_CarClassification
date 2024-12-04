@@ -73,7 +73,9 @@
 - `VIT/`: Vision Transformer model files
   - `vitresults/`
     - `model_#/`: contains slurm reports, accuracy/loss graphs, and metrics from various model runs
-  - `vitmodels/`: contains the actual model weights/architectures stored and loaded by TF
+  - `vitmodels/`:
+    - `model_#/`: also contains slurm reports, accuracy/loss graphs, and metrics from various model runs 
+    (note that these folders were meant to be merged, apologies!)
   - `vit_driver`: script to load data, build, train, and evaluate VIT model
   - `vit.py`: contains VIT model architecture 
   - `train_vit` & `train_vit2`: batch scripts to submit jobs to slurm
